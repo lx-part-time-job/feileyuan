@@ -2,12 +2,10 @@ import axios from "axios";
 
 axios.interceptors.request.use(
   config => {
-    // if (store.state.token) {
-    //   config.headers = {
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //     authorization: `token ${store.state.token}`
-    //   };
-    // }
+    config.headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+      'token': '2ccca0116411462daaee39a02a10e422'
+    };
     return config;
   },
   err => {

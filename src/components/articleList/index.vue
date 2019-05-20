@@ -1,5 +1,5 @@
 <template>
-  <div class="list" :style="{width: listWidth + 'px'}">
+  <div class="list">
     <div class="item" v-for="(item, index) in newsList">
       <img class="image" :src="list_img" alt="">
       <div class="content" :style="{width: contentWidth + 'px'}">
@@ -22,8 +22,8 @@
 
 <script>
   export default {
-    name: "list",
-    props: ["newsList", "listWidth", "contentWidth", "isLeft"],
+    name: "articleList",
+    props: ["newsList", "contentWidth", "isLeft"],
     data() {
       return {
         list_img: require('../../assets/images/list/list-img1.png'),
@@ -56,7 +56,12 @@
   .list {
     padding: 15px 30px;
     box-sizing: border-box;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0.174px 0.985px 5px 0px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
   }
+
   .item {
     overflow: hidden;
     padding: 15px 0;
@@ -75,14 +80,19 @@
 
   .title {
     font-size: 24px;
-    color: rgb(0, 119, 255);
+    color: rgb(51, 51, 51);
     line-height: 1.25;
+    cursor: pointer;
+  }
+
+  .title:hover {
+    color: rgb(0, 119, 255);
   }
 
   .abstract {
     font-size: 14px;
     color: rgb(102, 102, 102);
-    line-height: 1.286;
+    line-height: 1.3;
     margin-top: 5px;
   }
 

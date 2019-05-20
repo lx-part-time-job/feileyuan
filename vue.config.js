@@ -34,17 +34,15 @@ module.exports = {
  
   // 它支持webPack-dev-server的所有选项
   devServer: {
-    host: "localhost",
-    port: 8080, // 端口号
     https: false, // https:{type:Boolean}
     open: true, //配置自动启动浏览器
     // 配置多个代理
     proxy: {
       '/api': {
-        target:'124.156.160.86',
+        target:'http://124.156.160.86',
         changeOrigin:true,
         pathRewrite:{
-          '^/api': '/'
+          '^/api': '/api'
         }
       }
     }

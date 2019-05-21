@@ -1,11 +1,32 @@
 import axios from "axios";
+import Vue from 'vue'
+import { SetCookies ,  GetCookies, DelCookies } from './../../../utils/setCookies.js'
+
+axios.defaults.baseURL = "/api";
+axios.defaults.timeout = 10000;
+
+axios.defaults.headers = {
+    'X-Requested-With': 'XMLHttpRequest',
+    "Content-Type": "application/json;charset=utf-8"
+};
 
 axios.interceptors.request.use(
   config => {
-    config.headers = {
-      'Content-Type': 'application/json; charset=utf-8',
-      'token': '2ccca0116411462daaee39a02a10e422'
-    };
+    if (config.url.indexOf('?') >= 0) {
+            config.url += ('&_t=' + new Date().getTime());
+        } else {
+            config.url += '?_t=' + new Date().getTime();
+        }
+        //token放到header里
+        try {
+            let cookie = GetCookies('uInfo');
+            let token = cookie ? JSON.parse(cookie).token : '';
+            if(token){
+                config.headers['token'] = token;
+            }
+        } catch(e) {
+            console.log(e);
+        }
     return config;
   },
   err => {
@@ -66,8 +87,4 @@ axios.interceptors.response.use(
     return Promise.resolve(err.response);
   }
 );
-
-axios.defaults.baseURL = "/api";
-axios.defaults.timeout = 10000;
-
 export default axios;

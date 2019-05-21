@@ -1,16 +1,14 @@
 <template>
   <div class="infomation">
-    <article-list :newsList="newsList" :contentWidth="830" :isLeft="false" :mb="10" />
-    <Pagination :total="total" />
+    <article-list :total="total" :newsList="newsList" :contentWidth="830" :isLeft="true" :mb="10" />
   </div>
 </template>
 
 <script>
   import articleList from './components/articleList/index';
-  import Pagination from './components/pagination/index';
   export default {
     name: "information",
-    components: {articleList, Pagination},
+    components: {articleList},
     data() {
       return {
         newsList: [],

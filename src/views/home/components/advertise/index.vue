@@ -31,7 +31,7 @@
 
   .ad-item {
     border-radius: 5px;
-    margin-bottom: 11px;
+    margin-bottom: 16px;
   }
 
   .ad-item:last-child {
@@ -40,5 +40,7 @@
 
   .ad-item img {
     width: 100%;
+    height: 192px;
+    display: block;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <div class="item" v-for="(item, index) in newsList">
-      <img class="image" :src="item.imgurl" alt="">
+      <img class="image" :src="$IMG_URL + item.imgurl" alt="">
       <div class="content" :style="{width: contentWidth + 'px'}">
         <a class="title" :style="{'margin-bottom': mb + 'px'}">{{item.title}}</a>
         <p class="abstract">{{item.synopsis}}</p>
@@ -17,18 +17,20 @@
         </div>
       </div>
     </div>
+    <Pagination :total="total" />
   </div>
 </template>
 
 <script>
+  import Pagination from '../pagination/index';
   export default {
     name: "articleList",
-    props: ["newsList", "contentWidth", "isLeft", "mb"],
+    props: ["newsList", "contentWidth", "isLeft", "mb", "total"],
+    components: {Pagination},
     data() {
       return {
-        list_img: require('../../../../assets/images/list/list-img1.png'),
         news_icon: require('../../../../assets/images/list/news.png'),
-        clock_icon: require('../../../../assets/images/list/clock.png'),
+        clock_icon: require('../../../../assets/images/list/clock.png')
       }
     },
     methods: {
@@ -54,12 +56,11 @@
 
 <style scoped>
   .list {
-    padding: 15px 30px;
+    padding: 0 30px;
     box-sizing: border-box;
     background: #fff;
     border-radius: 5px;
     box-shadow: 0.174px 0.985px 5px 0px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
   }
 
   .item {
@@ -70,6 +71,8 @@
 
   .image {
     float: left;
+    width: 250px;
+    height: 150px;
   }
 
   .content {
@@ -93,8 +96,7 @@
   .abstract {
     font-size: 14px;
     color: rgb(102, 102, 102);
-    line-height: 1.3;
-    margin-top: 5px;
+    line-height: 1.5;
   }
 
   .meta {

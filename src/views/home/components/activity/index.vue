@@ -11,8 +11,8 @@
     components: {sideList},
     data() {
       return {
-        titleImg: require("../../../../assets/images/home/hot/hot.png"),
-        side_icon: require('../../../../assets/images/home/hot/fire.png'),
+        titleImg: require("../../../../assets/images/home/activity/activity.png"),
+        side_icon: require('../../../../assets/images/home/activity/football.png'),
         sideHeaderList: [
           {
             imgSrc: require("../../../../assets/images/home/hot/news1.png"),

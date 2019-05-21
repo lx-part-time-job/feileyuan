@@ -43,7 +43,7 @@
     background: #fff;
     border-radius: 5px;
     height: 100%;
-    padding: 20px 30px;
+    padding: 39px 30px 14px;
     box-sizing: border-box;
     margin-bottom: 20px;
   }
@@ -53,7 +53,6 @@
   }
 
   .side-item {
-    padding: 10px 0;
     border-bottom: 1px solid #efefef;
   }
 
@@ -61,8 +60,12 @@
     border: 0;
   }
 
+  .news-content {
+    padding: 11px 0 14px;
+  }
+
   .news-img {
-    margin-top: 10px;
+    margin-bottom: 14px;
   }
 
   .news-img-l {
@@ -72,7 +75,7 @@
   }
 
   .news-icon {
-    vertical-align: middle;
+    vertical-align: bottom;
     margin-right: 10px;
   }
 

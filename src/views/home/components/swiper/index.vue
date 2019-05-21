@@ -28,7 +28,7 @@
           }
         },
         swiperSlides: [1, 2, 3],
-        swiperImg: require('../../assets/images/home/swiper/banner1.png')
+        swiperImg: require('../../../../assets/images/home/swiper/banner1.png')
       }
     }
   }

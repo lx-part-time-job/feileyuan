@@ -1,9 +1,9 @@
 <template>
   <div class="list">
     <div class="item" v-for="(item, index) in newsList">
-      <img class="image" :src="list_img" alt="">
+      <img class="image" :src="item.imgurl" alt="">
       <div class="content" :style="{width: contentWidth + 'px'}">
-        <a class="title">{{item.title}}</a>
+        <a class="title" :style="{'margin-bottom': mb + 'px'}">{{item.title}}</a>
         <p class="abstract">{{item.synopsis}}</p>
         <div :class="isLeft ? 'meta' : 'meta right'">
           <div class="meta-item">
@@ -23,12 +23,12 @@
 <script>
   export default {
     name: "articleList",
-    props: ["newsList", "contentWidth", "isLeft"],
+    props: ["newsList", "contentWidth", "isLeft", "mb"],
     data() {
       return {
-        list_img: require('../../assets/images/list/list-img1.png'),
-        news_icon: require('../../assets/images/list/news.png'),
-        clock_icon: require('../../assets/images/list/clock.png'),
+        list_img: require('../../../../assets/images/list/list-img1.png'),
+        news_icon: require('../../../../assets/images/list/news.png'),
+        clock_icon: require('../../../../assets/images/list/clock.png'),
       }
     },
     methods: {
@@ -83,6 +83,7 @@
     color: rgb(51, 51, 51);
     line-height: 1.25;
     cursor: pointer;
+    display: block;
   }
 
   .title:hover {

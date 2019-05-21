@@ -1,4 +1,5 @@
 <template>
+  <div>
   <ul class="advertise">
     <li class="ad-item">
       <img :src="ad_img" alt="">
@@ -7,6 +8,8 @@
       <img :src="ad_img" alt="">
     </li>
   </ul>
+
+  </div>
 </template>
 
 <script>
@@ -14,7 +17,7 @@
     name: "advertise",
     data() {
       return {
-        ad_img: require("../../../assets/images/home/advertise/ad1.jpg")
+        ad_img: require("../../../../assets/images/home/advertise/ad1.jpg")
       }
     }
   }

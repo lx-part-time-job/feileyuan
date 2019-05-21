@@ -1,6 +1,6 @@
 import axios from "axios";
 import Vue from 'vue'
-// import { SetCookies ,  GetCookies, DelCookies } from './../../../utils/setCookies.js'
+import { SetCookies ,  GetCookies, DelCookies } from './../../../utils/setCookies.js'
 
 axios.defaults.baseURL = "/api";
 axios.defaults.timeout = 10000;
@@ -19,7 +19,7 @@ axios.interceptors.request.use(
         }
         //token放到header里
         try {
-            // let cookie = GetCookies('uInfo');
+            let cookie = GetCookies('uInfo');
             let token = cookie ? JSON.parse(cookie).token : '';
             if(token){
                 config.headers['token'] = token;

@@ -29,13 +29,7 @@
 			<router-link class="logo-wrapper fl" to="/" tag="div">
 				<img src="../../assets/images/home/nav/logo.png" alt>
 			</router-link>
-			<!-- <ul class="navs fl">
-				<router-link to="/" tag="li" class="nav-active">首页</router-link>
-				<router-link to="/" tag="li">资讯</router-link>
-				<router-link to="/" tag="li">论坛</router-link>
-				<router-link to="/" tag="li">专题</router-link>
-				<router-link to="/" tag="li">活动</router-link>
-			</ul> -->
+			
 			<el-menu :default-active="$route.path" :router=true class="fl" mode="horizontal">
 				<el-menu-item index="/">首页</el-menu-item>
 				<el-menu-item index="/news">资讯</el-menu-item>

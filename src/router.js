@@ -27,29 +27,29 @@ export default new Router({
         {
             path: '/',
             component: Default,
-            children: [
-                {
+            children: [{
                     path: '',
                     name: 'home',
-                    component: () => import('./views/home/index.vue'), 
+                    component: () =>
+                        import ('./views/home/index.vue'),
                 },
                 {
                     path: 'infomation',
                     name: 'infomation',
-                    component: () => import('./views/home/information.vue'), 
+                    component: () =>
+                        import ('./views/home/information.vue'),
                 }
             ]
         },
         {
-            path:'/',
+            path: '/',
             component: noFooter,
-            children:[
-                {
-                    path:'/login',
-                    name:'login',
-                    component: () => import('./views/user/login.vue')
-                }
-            ]
+            children: [{
+                path: '/login',
+                name: 'login',
+                component: () =>
+                    import ('./views/user/login.vue')
+            }]
         }
     ]
 })

@@ -5,7 +5,7 @@
       <div v-if="isActivity">
         <div class="news-content">
           <img class="news-img-l" :src="sideItem.imgSrc" alt="">
-          <p class="news-title news-title-r">{{sideItem.newsTitle}}</p>
+          <p class="news-title news-title-r fr">{{sideItem.newsTitle}}</p>
         </div>
       </div>
       <div v-else>
@@ -87,6 +87,5 @@
 
   .news-title-r {
     width: 180px;
-    float: right;
   }
 </style>

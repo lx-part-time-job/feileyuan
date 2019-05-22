@@ -1,9 +1,9 @@
 <template>
   <div class="list">
     <div class="item" v-for="(item, index) in newsList">
-      <img class="image" :src="$IMG_URL + item.imgurl" alt="">
-      <div class="content" :style="{width: contentWidth + 'px'}">
-        <a class="title" :style="{'margin-bottom': mb + 'px'}">{{item.title}}</a>
+      <img class="image fl" :src="$IMG_URL + item.imgurl" alt="">
+      <div class="content fr" :style="{width: contentWidth + 'px'}">
+        <a class="title cursor" :style="{'margin-bottom': mb + 'px'}">{{item.title}}</a>
         <p class="abstract">{{item.synopsis}}</p>
         <div :class="isLeft ? 'meta' : 'meta right'">
           <div class="meta-item">
@@ -70,13 +70,11 @@
   }
 
   .image {
-    float: left;
     width: 250px;
     height: 150px;
   }
 
   .content {
-    float: right;
     height: 150px;
     position: relative;
   }
@@ -85,7 +83,6 @@
     font-size: 24px;
     color: rgb(51, 51, 51);
     line-height: 1.25;
-    cursor: pointer;
     display: block;
   }
 

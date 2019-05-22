@@ -6,24 +6,10 @@ import noFooter from './layout/noFooter'
 
 Vue.use(Router);
 
-export default new Router({
+const routes = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
-        // {
-        //     path: '/',
-        //     name: 'home',
-        //     component: Home
-        // }, {
-        //     path: '/infomation',
-        //     name: 'Infomation',
-        //     component: resolve => require(["./views/home/information"], resolve)
-        // },
-        // {
-        //     path: '/login',
-        //     name: 'Login',
-        //     component: Login
-        // },
         {
             path: '/',
             component: Default,
@@ -34,8 +20,8 @@ export default new Router({
                         import ('./views/home/index.vue'),
                 },
                 {
-                    path: 'infomation',
-                    name: 'infomation',
+                    path: 'information',
+                    name: 'information',
                     component: () =>
                         import ('./views/home/information.vue'),
                 }
@@ -52,4 +38,6 @@ export default new Router({
             }]
         }
     ]
-})
+});
+
+export default routes;

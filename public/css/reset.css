@@ -79,13 +79,13 @@ time,
 mark,
 audio,
 video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    font-family: 'Microsoft YaHei';
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  font-family: 'Microsoft YaHei';
+  vertical-align: baseline;
 }
 
 
@@ -102,132 +102,132 @@ hgroup,
 menu,
 nav,
 section {
-    display: block;
+  display: block;
 }
 
 body {
-    line-height: 1;
-    background: #efefef;
+  line-height: 1;
+  background: #efefef;
 }
 
 ol,
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 blockquote,
 q {
-    quotes: none;
+  quotes: none;
 }
 
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: '';
-    content: none;
+  content: '';
+  content: none;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 input,
 textarea {
-    outline: none;
+  outline: none;
 }
 
 img {
-    border: 0;
+  border: 0;
 }
 
 .inner {
-    width: 1200px;
-    margin: 0 auto;
+  width: 1200px;
+  margin: 0 auto;
 }
 
 .clearfix:after,
 .clearfix:before {
-    content: "";
-    display: table
+  content: "";
+  display: table
 }
 
 .clearfix {
-    zoom: 1
+  zoom: 1
 }
 
 .clear {
-    display: block;
-    font-size: 0;
-    height: 0;
-    line-height: 0
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0
 }
 
 .hide,
 .none {
-    display: none
+  display: none
 }
 
 .block {
-    display: block
+  display: block
 }
 
 .fl,
 .fr {
-    display: inline
+  display: inline
 }
 
 .fl {
-    float: left
+  float: left
 }
 
 .fr {
-    float: right
+  float: right
 }
 
 .ov {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .inline {
-    display: inline;
+  display: inline;
 }
 
 .img100 {
-    width: 100%;
-    height: 100%
+  width: 100%;
+  height: 100%
 }
 
 .textR {
-    text-align: right
+  text-align: right
 }
 
 .textL {
-    text-align: left
+  text-align: left
 }
 
 .textEllipsis {
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    line-clamp: 1
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  line-clamp: 1
 }
 
 .textNewline {
-    white-space: pre-line
+  white-space: pre-line
 }
 
 .tc {
-    text-align: center
+  text-align: center
 }
 
 .cursor {
-    cursor: pointer;
+  cursor: pointer;
 }

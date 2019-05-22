@@ -1,16 +1,16 @@
 <template>
   <div class="home">
     <div class="part-left fl">
-      <Swiper />
+      <Swiper/>
       <div class="part-left-content">
-        <article-list :total="total" :newsList="newsList" :contentWidth="460" :isLeft="true" :mb="0" />
+        <article-list :total="total" :newsList="newsList" :contentWidth="460" :isLeft="true" :mb="0"/>
       </div>
     </div>
     <div class="part-right fl">
-      <Advertise />
-      <Hot />
-      <Forum />
-      <Activity />
+      <Advertise/>
+      <Hot/>
+      <Forum/>
+      <Activity/>
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@
   import Forum from './components/forum/index';
   import Hot from './components/hot/index';
   import Activity from './components/activity/index';
+
   export default {
     name: "home",
     components: {articleList, Swiper, Advertise, Forum, Hot, Activity},
@@ -70,30 +71,44 @@
             publishtime: 1558335347172
           }
         ],
-        total: 1
+        total: 1,
+        activityList: []
       }
     },
     methods: {
-      getNewList(page) {
+      getNewsList(page) {
         this.$axios.get('/information/', {
           params: {
             page: page || 1,
             limit: 1
           }
         }).then(res => {
-            if(res.data.code === 0) {
-              this.newsList = [...res.data.data]
-              this.total = res.data.count
-            }
-          })
+          if (res.data.code === 0) {
+            this.newsList = [...res.data.data];
+            this.total = res.data.count
+          }
+        })
+      },
+      getActivityList(page) {
+        this.$axios.get('/activity/getHotActivityList', {
+          params: {
+            page: page || 1,
+            limit: 1
+          }
+        }).then(res => {
+          if (res.data.code === 0) {
+            this.activityList = [...res.data.data]
+          }
+        })
       }
     },
     mounted() {
-      this.getNewList()
+      this.getNewsList();
+      this.getActivityList()
     },
     watch: {
-      $route (to, from) {
-        this.getNewList(to.query.page)
+      $route(to, from) {
+        this.getNewsList(to.query.page)
       }
     }
   }
@@ -102,7 +117,7 @@
 <style scoped>
   .home {
     width: 1200px;
-    margin:0 auto;
+    margin: 0 auto;
     overflow: hidden;
     margin-top: 30px;
   }

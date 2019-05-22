@@ -2,7 +2,6 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import VuePaginate from 'vue-paginate';
 import ElementUI from 'element-ui';
 
 import axios from './assets/js/http';
@@ -15,7 +14,7 @@ const IMG_URL = 'http://124.156.160.86';
 
 Vue.config.productionTip = false;
 
-Vue.use(ElementUI)
+Vue.use(ElementUI);
 
 Vue.prototype.$axios = axios;
 Vue.prototype.$formatDate = formatDate;

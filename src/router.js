@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Default from './layout/default'
+import Wrapper from './layout/wrapper'
 import noFooter from './layout/noFooter'
 
 Vue.use(Router);
@@ -12,12 +13,13 @@ const routes = new Router({
   routes: [{
     path: '/',
     component: Default,
-    children: [{
-      path: '',
-      name: 'home',
-      component: () =>
-        import ('./views/home/index.vue'),
-    },
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: () =>
+          import ('./views/home/index.vue'),
+      },
       {
         path: 'news',
         name: 'news',
@@ -28,6 +30,21 @@ const routes = new Router({
         name: 'article',
         component: () =>
           import ('./views/home/article.vue')
+      }, {
+        path: 'user',
+        component: Wrapper,
+        children: [
+          {
+            path: '',
+            name: 'user',
+            component: () => import('./views/user/index.vue'),
+          },
+          {
+            path: 'editProfile',
+            name: 'editProfile',
+            component: () => import('./views/user/editProfile.vue')
+          }
+        ]
       }
     ]
   },

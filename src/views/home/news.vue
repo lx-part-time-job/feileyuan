@@ -1,5 +1,5 @@
 <template>
-  <div class="information">
+  <div class="news">
     <article-list :total="total" :newsList="newsList" :contentWidth="830" :isLeft="true" :mb="10" />
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
   import articleList from './components/articleList/index';
   export default {
-    name: "information",
+    name: "news",
     components: {articleList},
     data() {
       return {
@@ -42,9 +42,9 @@
 </script>
 
 <style scoped>
-.information {
-  width: 100%;
+.news {
   padding-right: 30px;
   box-sizing: border-box;
+  margin-top: 20px;
 }
 </style>

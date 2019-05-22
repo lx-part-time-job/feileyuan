@@ -2,24 +2,18 @@
   <div>
   <ul class="advertise">
     <li class="ad-item">
-      <img :src="ad_img" alt="">
+      <img src="/img/home/ad/ad1.jpg" alt="">
     </li>
     <li class="ad-item">
-      <img :src="ad_img" alt="">
+      <img src="/img/home/ad/ad1.jpg" alt="">
     </li>
   </ul>
-
   </div>
 </template>
 
 <script>
   export default {
-    name: "advertise",
-    data() {
-      return {
-        ad_img: require("../../../../assets/images/home/advertise/ad1.jpg")
-      }
-    }
+    name: "advertise"
   }
 </script>
 

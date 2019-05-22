@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <div class="item" v-for="(item, index) in newsList">
-      <img class="image fl" :src="$IMG_URL + item.imgurl" alt="">
+      <img class="image fl" :src="item.imgurl ? ($IMG_URL + item.imgurl) : '/img/home/list/list-img1.png'" alt="">
       <div class="content fr" :style="{width: contentWidth + 'px'}">
         <a class="title cursor" :style="{'margin-bottom': mb + 'px'}">{{item.title}}</a>
         <p class="abstract">{{item.synopsis}}</p>
@@ -29,8 +29,8 @@
     components: {Pagination},
     data() {
       return {
-        news_icon: require('../../../../assets/images/list/news.png'),
-        clock_icon: require('../../../../assets/images/list/clock.png')
+        news_icon: '/img/home/icons/news.png',
+        clock_icon: '/img/home/icons/clock.png'
       }
     },
     methods: {

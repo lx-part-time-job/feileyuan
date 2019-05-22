@@ -11,35 +11,35 @@
     components: {sideList},
     data() {
       return {
-        titleImg: require("../../../../assets/images/home/activity/activity.png"),
-        side_icon: require('../../../../assets/images/home/activity/football.png'),
+        titleImg: "/img/home/side/activity.png",
+        side_icon: '/img/home/icons/football.png',
         sideHeaderList: [
           {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }, {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }, {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }
         ],
         sideFooterList: [
           {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }, {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }, {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }, {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }, {
-            imgSrc: require("../../../../assets/images/home/hot/news1.png"),
+            imgSrc: "/img/home/side/news1.png",
             newsTitle: "这是文章标题，大约12—20个字......论坛ID "
           }
         ],

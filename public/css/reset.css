@@ -89,6 +89,16 @@ video {
 }
 
 
+* {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+  font-family: "PingFangSC-Regular", "苹方", "Microsoft YaHei", "微软雅黑";
+}
+
 /* HTML5 display-role reset for older browsers */
 
 article,
@@ -144,6 +154,15 @@ textarea {
 
 img {
   border: 0;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-size: 12px;
+  font-family: "PingFangSC-Regular", "苹方", "Microsoft YaHei", "微软雅黑";
 }
 
 .inner {

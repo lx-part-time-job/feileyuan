@@ -9,6 +9,7 @@ import { formatDate } from './assets/js/formatDate';
 import utils from '../utils';
 import 'element-ui/lib/theme-chalk/index.css';
 import '../public/css/reset.css';
+import './assets/icon/iconfont.css'
 
 const IMG_URL = 'http://124.156.160.86';
 

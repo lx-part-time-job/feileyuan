@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <div class="part-left">
+    <div class="part-left fl">
       <Swiper />
       <div class="part-left-content">
         <article-list :total="total" :newsList="newsList" :contentWidth="460" :isLeft="true" :mb="0" />
       </div>
     </div>
-    <div class="part-right">
+    <div class="part-right fl">
       <Advertise />
       <Hot />
       <Forum />
@@ -106,7 +106,6 @@
   }
 
   .part-left {
-    float: left;
     width: 805px;
     margin-right: 15px;
   }
@@ -120,7 +119,5 @@
 
   .part-right {
     width: 380px;
-    float: left;
-
   }
 </style>

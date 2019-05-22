@@ -9,16 +9,6 @@ module.exports = {
         open: true, //配置自动启动浏览器
         hotOnly: false,
         port: 8080,
-        // 配置多个代理
-        // proxy: {
-        //   '/api': {
-        //     target:'http://124.156.160.86',
-        //     changeOrigin:true,
-        //     pathRewrite:{
-        //       '^/api': '/api'
-        //     }
-        //   }
-        // }
         proxy: {
             '/api': {
                 target: 'http://124.156.160.86/',
@@ -31,6 +21,6 @@ module.exports = {
                     '^/api': '/api'
                 }
             }
-        },
+        }
     }
 };

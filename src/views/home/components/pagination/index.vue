@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination-wrapper">
+  <div class="pagination-wrapper tc">
     <el-pagination
       background
       @current-change="changePage"
@@ -23,7 +23,6 @@
 <style scoped>
   .pagination-wrapper {
     width: 100%;
-    text-align: center;
     padding: 20px 0;
   }
 </style>

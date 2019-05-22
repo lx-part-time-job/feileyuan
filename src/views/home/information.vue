@@ -1,5 +1,5 @@
 <template>
-  <div class="infomation">
+  <div class="information">
     <article-list :total="total" :newsList="newsList" :contentWidth="830" :isLeft="true" :mb="10" />
   </div>
 </template>
@@ -42,7 +42,7 @@
 </script>
 
 <style scoped>
-.infomation {
+.information {
   width: 100%;
   padding-right: 30px;
   box-sizing: border-box;

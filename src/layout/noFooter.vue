@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="el">
 		<Header />
     	<router-view/>
 	</div>
@@ -19,6 +19,9 @@
   	}
 </script>
 
-<style scoped lang="scss">
-
+<style scoped>
+	#el{
+		width:100%;
+		margin: 0 auto;
+	}
 </style>

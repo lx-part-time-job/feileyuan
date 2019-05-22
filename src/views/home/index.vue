@@ -101,6 +101,8 @@
 
 <style scoped>
   .home {
+    width: 1200px;
+    margin:0 auto;
     overflow: hidden;
     margin-top: 30px;
   }

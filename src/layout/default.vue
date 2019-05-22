@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="el">
     <Header />
     <router-view/>
     <Footer />
@@ -22,8 +22,8 @@
 </script>
 
 <style>
-  #app {
-    width: 1200px;
+  #el {
+    width: 100%;
     margin: 0 auto;
   }
 </style>

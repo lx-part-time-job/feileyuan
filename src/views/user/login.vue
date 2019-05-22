@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div class="bgWrap">
+        <div class="inner">
+            
+        </div>
         <label for="loginName">
             用户名：
             <input v-model="loginName" type="text" id="loginName" />
@@ -26,11 +29,20 @@ export default {
                 loginName: this.loginName,
                 passWord: this.passWord
             }).then(res => {
-                
+                if (res.data.code == 0) {
+                    // 登陆成功
+                    let userInfo = {
+                        token: res.data.data,
+                    }
+                    this.$setCookie("uInfo", JSON.stringify(userInfo));
+                } else {
+                    this.$message.error(res.data.msg)
+                }
             })
         }
     }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+
 </style>

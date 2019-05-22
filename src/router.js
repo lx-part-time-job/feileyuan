@@ -9,8 +9,7 @@ Vue.use(Router);
 const routes = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes: [
-        {
+    routes: [{
             path: '/',
             component: Default,
             children: [{
@@ -24,6 +23,11 @@ const routes = new Router({
                     name: 'information',
                     component: () =>
                         import ('./views/home/information.vue'),
+                }, {
+                    path: 'article/:articleID',
+                    name: 'article',
+                    component: () =>
+                        import ('./views/home/article.vue')
                 }
             ]
         },

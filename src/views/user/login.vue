@@ -1,5 +1,5 @@
 <template>
-    <div class="bgWrap">
+    <div class="bg-wrap">
         <div class="inner">
             
         </div>
@@ -44,5 +44,10 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
+.bg-wrap{
+    background: url('./../../../public/img/user/footer-bg.png') no-repeat bottom center;
+    width: 100%;
+    min-height: 415px;
+    background-size: 100%;
+}
 </style>

@@ -20,10 +20,10 @@ const routes = new Router({
                         import ('./views/home/index.vue'),
                 },
                 {
-                    path: 'information',
-                    name: 'information',
+                    path: 'news',
+                    name: 'news',
                     component: () =>
-                        import ('./views/home/information.vue'),
+                        import ('./views/home/news.vue'),
                 }
             ]
         },

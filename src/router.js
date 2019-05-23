@@ -19,8 +19,7 @@ const routes = new Router({
         name: 'home',
         component: () =>
           import ('./views/home/index.vue'),
-      },
-      {
+      }, {
         path: 'news',
         name: 'news',
         component: () =>
@@ -30,6 +29,11 @@ const routes = new Router({
         name: 'article',
         component: () =>
           import ('./views/home/article.vue')
+      }, {
+        path: 'topic',
+        name: 'topic',
+        component: () =>
+          import ('./views/home/topic.vue')
       }, {
         path: 'user',
         component: Wrapper,

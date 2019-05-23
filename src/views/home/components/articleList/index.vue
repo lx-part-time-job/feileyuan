@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <div class="item" v-for="(item, index) in newsList">
+    <div class="item" v-for="(item, index) in articleList">
       <img class="image fl" :src="item.imgurl ? ($IMG_URL + item.imgurl) : '/img/home/list/list-img1.png'" alt="">
       <div class="content fr" :style="{width: contentWidth + 'px'}">
         <a class="title cursor" :style="{'margin-bottom': mb + 'px'}">{{item.title}}</a>
@@ -25,7 +25,7 @@
   import Pagination from '../pagination/index';
   export default {
     name: "articleList",
-    props: ["newsList", "contentWidth", "isLeft", "mb", "total"],
+    props: ["articleList", "contentWidth", "isLeft", "mb", "total"],
     components: {Pagination},
     data() {
       return {
@@ -59,7 +59,6 @@
     padding: 0 30px;
     box-sizing: border-box;
     background: #fff;
-    border-radius: 5px;
     box-shadow: 0.174px 0.985px 5px 0px rgba(0, 0, 0, 0.1);
   }
 

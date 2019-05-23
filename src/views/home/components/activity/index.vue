@@ -13,37 +13,27 @@
       return {
         titleImg: "/img/home/side/activity.png",
         side_icon: '/img/home/icons/football.png',
-        sideHeaderList: [
-          {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }
-        ],
-        sideFooterList: [
-          {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }
-        ],
+        sideHeaderList: [],
+        sideFooterList: [],
         isActivity: true
+      }
+    },
+    mounted() {
+      this.getActivityList()
+    },
+    methods: {
+      getActivityList(page) {
+        this.$axios.get('/activity/getHotActivityList', {
+          params: {
+            page: page || 1
+          }
+        }).then(res => {
+          if (res.data.code === 0) {
+            let dataList = [...res.data.data];
+            this.sideHeaderList = dataList.splice(0, 3);
+            this.sideFooterList = dataList.splice(0, 5);
+          }
+        })
       }
     }
   }

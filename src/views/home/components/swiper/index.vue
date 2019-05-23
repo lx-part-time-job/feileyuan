@@ -1,8 +1,10 @@
 <template>
   <div class="swiper-wrapper">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="(slide, index) in swiperSlides" :key="index">
-        <img class="swiper-img" :src="swiperImg" alt="">
+      <swiper-slide v-for="(swiperItem, index) in swiperList" :key="index">
+        <a class="img100" :href="swiperItem.topicurl || 'javascript:;'" target="__blank">
+          <img class="swiper-img" :src="swiperItem.imgurl ? ($IMG_URL + swiperItem.imgurl) : swiperImg" alt="">
+        </a>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -18,6 +20,9 @@
       swiper,
       swiperSlide
     },
+    props: {
+      swiperList: Array
+    },
     data() {
       return {
         swiperOption: {
@@ -25,9 +30,11 @@
             el: '.swiper-pagination',
             bulletClass: 'bullet',
             bulletActiveClass: 'bullet-active'
-          }
+          },
+          loop: true,
+          autoplay: true,
+          delay: 1500
         },
-        swiperSlides: [1, 2, 3],
         swiperImg: '/img/home/banner/banner1.png'
       }
     }

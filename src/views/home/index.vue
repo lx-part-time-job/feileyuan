@@ -1,16 +1,16 @@
 <template>
   <div class="home">
     <div class="part-left fl">
-      <Swiper/>
+      <Swiper :swiperList="swiperList"/>
       <div class="part-left-content">
-        <article-list :total="total" :newsList="newsList" :contentWidth="460" :isLeft="true" :mb="0"/>
+        <article-list :total="total" :articleList="newsList" :contentWidth="460" :isLeft="true" :mb="0"/>
       </div>
     </div>
     <div class="part-right fl">
-      <Advertise/>
-      <Hot/>
-      <Forum/>
-      <Activity/>
+      <Advertise :adList="adList"/>
+      <Hot />
+      <Forum />
+      <Activity />
     </div>
   </div>
 </template>
@@ -22,65 +22,25 @@
   import Forum from './components/forum/index';
   import Hot from './components/hot/index';
   import Activity from './components/activity/index';
+  import backTop from '../../../mixin/back_top';
 
   export default {
     name: "home",
+    mixins: [backTop],
     components: {articleList, Swiper, Advertise, Forum, Hot, Activity},
     data() {
       return {
-        newsList: [
-          {
-            title: '在印度，很多女性经常这么做，让男性深受其害',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '这是一个需要留20字的标题，可以拆行，鼠 标经过这个标题变色 ',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '在印度，很多女性经常这么做，让男性深受其害',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '这是一个需要留20字的标题，可以拆行，鼠 标经过这个标题变色 ',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '在印度，很多女性经常这么做，让男性深受其害',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '这是一个需要留20字的标题，可以拆行，鼠 标经过这个标题变色 ',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '在印度，很多女性经常这么做，让男性深受其害',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '这是一个需要留20字的标题，可以拆行，鼠 标经过这个标题变色 ',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '在印度，很多女性经常这么做，让男性深受其害',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }, {
-            title: '这是一个需要留20字的标题，可以拆行，鼠 标经过这个标题变色 ',
-            synopsis: '我在印度期间，发现印度的电视节目，在报道一些新闻的时候，女性的脸往往被打上马赛克，而男性的脸却被展示在电视机屏幕上，供全印度的人评判。 这源于印...',
-            publishtime: 1558335347172
-          }
-        ],
+        newsList: [],
         total: 1,
-        activityList: []
+        swiperList: [],
+        adList: []
       }
     },
     methods: {
       getNewsList(page) {
         this.$axios.get('/information/', {
           params: {
-            page: page || 1,
-            limit: 1
+            page: page || 1
           }
         }).then(res => {
           if (res.data.code === 0) {
@@ -89,26 +49,28 @@
           }
         })
       },
-      getActivityList(page) {
-        this.$axios.get('/activity/getHotActivityList', {
+      getTopicList(page) {
+        this.$axios.get('/activity/getSpecialTopicList', {
           params: {
-            page: page || 1,
-            limit: 1
+            page: page || 1
           }
         }).then(res => {
           if (res.data.code === 0) {
-            this.activityList = [...res.data.data]
+            let topicList = [...res.data.data];
+            this.swiperList = topicList.splice(0, 5);
+            this.adList = topicList.splice(0, 2);
           }
         })
       }
     },
     mounted() {
       this.getNewsList();
-      this.getActivityList()
+      this.getTopicList();
     },
     watch: {
       $route(to, from) {
-        this.getNewsList(to.query.page)
+        this.getNewsList(to.query.page);
+        this.goTop();
       }
     }
   }
@@ -117,9 +79,8 @@
 <style scoped>
   .home {
     width: 1200px;
-    margin: 0 auto;
+    margin: 30px auto 0;
     overflow: hidden;
-    margin-top: 30px;
   }
 
   .part-left {

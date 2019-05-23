@@ -12,35 +12,28 @@
     data() {
       return {
         titleImg: "/img/home/side/forum.png",
-        side_icon: '/img/home/side/article.png',
-        sideHeaderList: [
-          {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }
-        ],
-        sideFooterList: [
-          {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }, {
-            imgSrc: "/img/home/side/news1.png",
-            newsTitle: "这是文章标题，大约12—20个字......论坛ID "
-          }
-        ],
+        side_icon: '/img/home/icons/article.png',
+        sideHeaderList: [],
+        sideFooterList: [],
         isActivity: false
+      }
+    },
+    mounted() {
+      this.getForumList()
+    },
+    methods: {
+      getForumList(page) {
+        this.$axios.get('/activity/getHotActivityList', {
+          params: {
+            page: page || 1
+          }
+        }).then(res => {
+          if (res.data.code === 0) {
+            let dataList = [...res.data.data];
+            this.sideHeaderList = dataList.splice(0, 1);
+            this.sideFooterList = dataList.splice(0, 6);
+          }
+        })
       }
     }
   }

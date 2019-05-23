@@ -4,22 +4,22 @@
     <div class="side-item" v-for="(sideItem, index) in sideHeaderList">
       <div v-if="isActivity">
         <div class="news-content">
-          <img class="news-img-l" :src="sideItem.imgSrc" alt="">
-          <p class="news-title news-title-r fr">{{sideItem.newsTitle}}</p>
+          <img class="news-img-l" :src="$IMG_URL + sideItem.imgurl" alt="">
+          <p class="news-title news-title-r fr">{{sideItem.title}}</p>
         </div>
       </div>
       <div v-else>
         <p class="news-content">
           <img class="news-icon" :src="side_icon" alt="">
-          <span class="news-title">{{sideItem.newsTitle}}</span>
+          <span class="news-title textEllipsis">{{sideItem.title}}</span>
         </p>
-        <img class="news-img" :src="sideItem.imgSrc" alt="">
+        <img class="news-img" :src="$IMG_URL + sideItem.imgurl" alt="">
       </div>
     </div>
     <div class="side-item" v-for="(sideItem, index) in sideFooterList">
       <p class="news-content">
         <img class="news-icon" :src="side_icon" alt="">
-        <span class="news-title">{{sideItem.newsTitle}}</span>
+        <span class="news-title textEllipsis">{{sideItem.title}}</span>
       </p>
     </div>
   </div>
@@ -65,6 +65,8 @@
   }
 
   .news-img {
+    width: 318px;
+    height: 150px;
     margin-bottom: 14px;
   }
 
@@ -75,13 +77,14 @@
   }
 
   .news-icon {
-    vertical-align: bottom;
     margin-right: 10px;
   }
 
   .news-title {
+    width: 290px;
     font-size: 14px;
     color: rgb(102, 102, 102);
+    display: inline-block;
     line-height: 1.286;
   }
 

@@ -1,11 +1,10 @@
 <template>
   <div>
   <ul class="advertise">
-    <li class="ad-item">
-      <img src="/img/home/ad/ad1.jpg" alt="">
-    </li>
-    <li class="ad-item">
-      <img src="/img/home/ad/ad1.jpg" alt="">
+    <li class="ad-item" v-for="item in adList">
+      <a class="img100" :href="item.topicurl || 'javascript:;'" target="__blank">
+        <img :src="$IMG_URL + item.imgurl" alt="">
+      </a>
     </li>
   </ul>
   </div>
@@ -13,7 +12,10 @@
 
 <script>
   export default {
-    name: "advertise"
+    name: "advertise",
+    props: {
+      adList: Array
+    }
   }
 </script>
 

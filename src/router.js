@@ -60,6 +60,11 @@ const routes = new Router({
         name: 'login',
         component: () =>
           import ('./views/user/login.vue')
+      },{
+        path: '/register',
+        name: 'register',
+        component: () =>
+          import ('./views/user/register.vue')
       }]
     }
   ]

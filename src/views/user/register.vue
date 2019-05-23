@@ -2,37 +2,67 @@
     <div class="bg-wrap">
         <div class="con-wrap">
             <div class="left">
-                <p class="title">欢迎菲乐园！</p>
-                <p class="sub-title">Welcome to Fei Paradise.</p>
-                <div class="phone">
-                    <div>
-                        <img src="/img/user/icon-phone.png" alt="">
-                    </div>
-                    <input v-model="loginName" type="tel" id="loginName" placeholder="请输入的你的手机号码" />
+                <p class="title">会员注册</p>
+                <ul class='tab'>
+                  <li class="cursor" @click='tab = 1' :class="tab == 1 ? 'active' : ''">通过短信注册</li>
+                  <li class="cursor" @click='tab = 2' :class="tab == 2 ? 'active' : ''">通过邮箱注册</li>
+                </ul>
+                <div class="tab1" v-if='tab == 1'>
+                  <div class="phone">
+                      <div>
+                          <img src="/img/user/icon-phone.png" alt="">
+                      </div>
+                      <input v-model="loginName" type="tel" placeholder="请输入的你的手机号码" />
+                  </div>
+                  <div class="phone">
+                      <div>
+                          <img class="password" src="/img/user/icon-lock.png" alt="">
+                      </div>
+                      <input v-model="passWord" type="password" placeholder="密码(6-20位字母与字母或符号组成)" />
+                  </div>
+                  <div class="phone">
+                      <div>
+                          <img class="password" src="/img/user/icon-lock.png" alt="">
+                      </div>
+                      <input v-model="surePassword" type="password" placeholder="请重复密码" />
+                  </div>
+                  <div class="phone">
+                      <input class="code-input" v-model="verificationCode" type="text" placeholder="输入验证码" />
+                      <div class="get-code cursor">
+                        <span>点击获取验证码</span>
+                      </div>
+                  </div>
                 </div>
-                <div class="phone">
-                    <div>
-                        <img src="/img/user/icon-lock.png" alt="">
-                    </div>
-                    <input v-model="passWord" type="password" id="passWord" placeholder="6-20位字母与字母或符号组成" />
-                    <img class="eye" src="/img/user/icon-eye.png" alt="">
+                <div class="tab2 tab1" v-if='tab == 2'>
+                  <div class="phone">
+                      <div>
+                          <img src="/img/user/icon-phone.png" alt="">
+                      </div>
+                      <input v-model="loginName" type="tel" placeholder="请输入的你的手机号码" />
+                  </div>
+                  <div class="phone">
+                      <div>
+                          <img class="password" src="/img/user/icon-lock.png" alt="">
+                      </div>
+                      <input v-model="passWord" type="password" placeholder="密码(6-20位字母与字母或符号组成)" />
+                  </div>
+                  <div class="phone">
+                      <div>
+                          <img class="password" src="/img/user/icon-lock.png" alt="">
+                      </div>
+                      <input v-model="surePassword" type="password" placeholder="请重复密码" />
+                  </div>
+                  <div class="phone">
+                      <div>
+                          <img class="email" src="/img/user/icon-email.png" alt="">
+                      </div>
+                      <input v-model="surePassword" type="password" placeholder="输入邮箱验证码" />
+                  </div>
                 </div>
-                <div class="rember">
-                    <div>
-                        <div class="checked cursor" @click='rember'>
-                            <span v-show='checked' class="iconfont icon-duihao"></span>
-                        </div>
-                        <span class="tip">下次自动登录</span>
-                    </div>
-                    <div>
-                        <span class="cursor forget">忘记密码？</span>
-                    </div>
-                </div>
-                <div class="login-btn" @click='login'>登录</div>
-                <div class="register">
-                    还没有账号？点击<span class="cursor" @click='$router.push("/register")'>立即注册</span>
-                </div>
+                <div class="login-btn cursor" @click='login'>确认注册</div>
+                <div class="already">已有账号？<span class="cursor" @click='$router.push("/login")'>马上登录</span></div>
             </div>
+            
             <div class="right">
                 <div class="other-login">
                     <div class="left-line"></div>
@@ -65,7 +95,10 @@ export default {
             loginName:'',
             // passWord: "123456"
             passWord:'',
-            checked:false
+            surePassword:'',
+            verificationCode:'',
+            checked:false,
+            tab:1,
         }
     },
     methods: {
@@ -104,21 +137,40 @@ export default {
         height: 690px;
         background-size: 100% 100%;
         margin: 118px auto 0; 
-        padding: 0 206px 0 266px;
+        padding: 0 206px 0 212px;
         display: flex;
         justify-content: center;
         box-sizing: border-box;
         .left{
             width: 50%;
+            padding-right: 30px;
             .title{
-                font-size: 40px;
+                font-size: 24px;
                 color: #FFFFFF;
-                padding: 162px 0 8px 0;
+                padding: 142px 0 55px 0;
+                font-weight: 600;
+                text-align: center;
             }
-            .sub-title {
-                font-size: 14px;
-                color: #fff;
-                margin-bottom: 62px;
+            .tab{
+              display: flex;
+              justify-content: center;
+              text-align: center;
+              color: #fff;
+              font-size: 16px;
+              line-height: 25px;
+              >li{
+                border-bottom: 1px solid #fff;
+                text-align: center;
+                width: 230px;
+              }
+              .active{
+                font-weight: 600;
+                border-bottom: 2px solid #fff;
+              }
+            }
+            .tab1{
+              padding-top: 35px;
+              text-align: center;
             }
             .phone{
                 width:350px;
@@ -130,7 +182,7 @@ export default {
                 box-sizing: border-box;
                 display: flex;
                 align-items: center;
-                margin-bottom: 20px;
+                margin: 0 auto 20px;
                 >div{
                     border-right: 1px solid #fff;
                     img{
@@ -138,6 +190,21 @@ export default {
                         height: 25px;
                         margin-right: 17px;
                     }
+                    .password{
+                      width: 19px;
+                      height: 22px;
+                    }
+                    .email{
+                      width: 19px;
+                      height: 15px;
+                    }
+                }
+                .get-code{
+                  border-right: none;
+                  border-left: 1px solid #fff;
+                  padding-left: 9px;
+                  font-size: 14px;
+                  color: #fff;
                 }
                 input{
                     width: 255px;
@@ -149,39 +216,15 @@ export default {
                     color: #fff;
                     font-size: 16px;
                 }
+                .code-input{
+                  width: 200px;
+                }
                 .eye{
                     padding-left: 20px;
                 }
             }
             .phone:last-child {
                 padding-bottom: 11px;
-            }
-            .rember{
-                width: 350px;
-                color: #fff;
-                font-size: 14px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                .checked{
-                    width: 16px;
-                    height: 16px;
-                    display: inline-block;
-                    border: 1px solid #fff;
-                    margin-right: 4px;
-                    vertical-align: middle;
-                    .icon-duihao{
-                        font-size: 16px;
-                        color: #fff;
-                        display: inline-block;
-                    }
-                }
-                .tip{
-                    vertical-align: middle;
-                }
-                .forget{
-                    color: #FFC766;
-                }
             }
             .login-btn {
                 width: 350px;
@@ -192,18 +235,15 @@ export default {
                 font-size: 20px;
                 line-height: 48px;
                 text-align: center;
-                margin-top: 35px;
-                margin-bottom: 10px;
+                margin: 35px auto 10px;
             }
-            .register{
-                font-size: 16px;
-                width: 350px;
-                text-align: center;
-                color: #ddd;
-                span{
-                    color: #FFDD66;
-                    border-bottom: 1px solid #FFDD66;
-                }
+            .already{
+              text-align: center;
+              color: #fff;
+              font-size: 16px;
+              span{
+                color: #FFC766;
+              }
             }
         }
         .left:after{
@@ -213,7 +253,8 @@ export default {
             content: '';
             background: #fff;
             float: right;
-            transform: translateY(-120%);
+            margin-right: -30px;
+            transform: translateY(-155%);
         }
         .right{
             width: 50%;
@@ -278,6 +319,6 @@ export default {
 }
 input::-webkit-input-placeholder {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
 }
 </style>

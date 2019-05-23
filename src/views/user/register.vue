@@ -56,10 +56,10 @@
                       <div>
                           <img class="email" src="/img/user/icon-email.png" alt="">
                       </div>
-                      <input v-model="surePassword" type="password" placeholder="输入邮箱验证码" />
+                      <input v-model="emailCode" type="password" placeholder="输入邮箱验证码" />
                   </div>
                 </div>
-                <div class="login-btn cursor" @click='login'>确认注册</div>
+                <div class="login-btn cursor" @click='register'>确认注册</div>
                 <div class="already">已有账号？<span class="cursor" @click='$router.push("/login")'>马上登录</span></div>
             </div>
             
@@ -96,31 +96,29 @@ export default {
             // passWord: "123456"
             passWord:'',
             surePassword:'',
+            emailCode:'',
             verificationCode:'',
             checked:false,
             tab:1,
         }
     },
     methods: {
-        login() {
-            this.$axios.post('/users/login', {
-                loginName: this.loginName,
-                passWord: this.passWord
-            }).then(res => {
-                if (res.data.code == 0) {
-                    // 登陆成功
-                    let userInfo = {
-                        token: res.data.data,
-                    }
-                    this.$setCookie("uInfo", JSON.stringify(userInfo));
-                } else {
-                    this.$message.error(res.data.msg)
-                }
-            })
+        register() {
+            // this.$axios.post('/users/login', {
+            //     loginName: this.loginName,
+            //     passWord: this.passWord
+            // }).then(res => {
+            //     if (res.data.code == 0) {
+            //         // 登陆成功
+            //         let userInfo = {
+            //             token: res.data.data,
+            //         }
+            //         this.$setCookie("uInfo", JSON.stringify(userInfo));
+            //     } else {
+            //         this.$message.error(res.data.msg)
+            //     }
+            // })
         },
-        rember(){
-            this.checked = !this.checked;
-        }
     }
 }
 </script>

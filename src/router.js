@@ -70,6 +70,11 @@ const routes = new Router({
         name: 'bound',
         component: () =>
           import ('./views/user/bound.vue')
+      },{
+        path: '/findpsw',
+        name: 'findpsw',
+        component: () =>
+          import ('./views/user/findPassword.vue')
       }]
     }
   ]

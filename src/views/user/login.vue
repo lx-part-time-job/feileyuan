@@ -25,7 +25,7 @@
                         <span class="tip">下次自动登录</span>
                     </div>
                     <div>
-                        <span class="cursor forget">忘记密码？</span>
+                        <span class="cursor forget" @click='$router.push("/findPassword")'>忘记密码？</span>
                     </div>
                 </div>
                 <div class="login-btn" @click='login'>登录</div>

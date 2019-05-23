@@ -24,10 +24,10 @@
       this.getHotList()
     },
     methods: {
-      getHotList(page) {
-        this.$axios.get('/activity/getHotActivityList', {
+      getHotList() {
+        this.$axios.get('/information/getHotInformationActivityList', {
           params: {
-            page: page || 1
+            page: 1
           }
         }).then(res => {
           if (res.data.code === 0) {

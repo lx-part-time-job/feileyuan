@@ -1,5 +1,6 @@
 // formatDate(date, 'yyyy-MM-dd hh:mm');
-export function formatDate(date,fmt){
+export function formatDate(time,fmt){
+  let date = new Date(time)
   if(/(y+)/.test(fmt)){
       fmt = fmt.replace(RegExp.$1, (date.getFullYear()+'').substr(4-RegExp.$1.length));
   }

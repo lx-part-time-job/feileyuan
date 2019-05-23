@@ -4,7 +4,7 @@
       background
       @current-change="changePage"
       layout="prev, pager, next, jumper"
-      :current-page="1"
+      :current-page="currentPage"
       :page-size="10"
       :total="total">
     </el-pagination>
@@ -16,7 +16,7 @@
   export default {
     name: "pagination",
     mixins: [pagination],
-    props: ["total"]
+    props: ["total", "currentPage"]
   }
 </script>
 

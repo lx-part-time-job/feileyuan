@@ -1,13 +1,13 @@
 <template>
   <div class="home">
     <div class="part-left fl">
-      <Swiper :swiperList="swiperList"/>
+      <Swiper />
       <div class="part-left-content">
         <article-list :total="total" :articleList="newsList" :contentWidth="460" :isLeft="true" :mb="0"/>
       </div>
     </div>
     <div class="part-right fl">
-      <Advertise :adList="adList"/>
+      <Advertise />
       <Hot />
       <Forum />
       <Activity />
@@ -31,9 +31,7 @@
     data() {
       return {
         newsList: [],
-        total: 1,
-        swiperList: [],
-        adList: []
+        total: 1
       }
     },
     methods: {
@@ -48,24 +46,10 @@
             this.total = res.data.count
           }
         })
-      },
-      getTopicList(page) {
-        this.$axios.get('/activity/getSpecialTopicList', {
-          params: {
-            page: page || 1
-          }
-        }).then(res => {
-          if (res.data.code === 0) {
-            let topicList = [...res.data.data];
-            this.swiperList = topicList.splice(0, 5);
-            this.adList = topicList.splice(0, 2);
-          }
-        })
       }
     },
     mounted() {
       this.getNewsList();
-      this.getTopicList();
     },
     watch: {
       $route(to, from) {

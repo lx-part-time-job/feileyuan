@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <div class="item" v-for="(item, index) in articleList">
+    <div class="item cursor" v-for="(item, index) in articleList" @click="toArticleInfo(item)">
       <img class="image fl" :src="item.imgurl ? ($IMG_URL + item.imgurl) : '/img/home/list/list-img1.png'" alt="">
       <div class="content fr" :style="{width: contentWidth + 'px'}">
         <a class="title cursor" :style="{'margin-bottom': mb + 'px'}">{{item.title}}</a>
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <Pagination :total="total" />
+    <Pagination :total="total" :currentPage="currentPage" />
   </div>
 </template>
 
@@ -25,7 +25,7 @@
   import Pagination from '../pagination/index';
   export default {
     name: "articleList",
-    props: ["articleList", "contentWidth", "isLeft", "mb", "total"],
+    props: ["articleList", "contentWidth", "isLeft", "mb", "total", "currentPage", "type"],
     components: {Pagination},
     data() {
       return {
@@ -48,6 +48,13 @@
           return minutes + '分钟前'
         } else {
           return '刚刚'
+        }
+      },
+      toArticleInfo(item) {
+        if(this.type === 'topic') {
+          item.topicurl && window.open(item.topicurl);
+        } else {
+          this.$router.push('/article/' + item.id)
         }
       }
     }

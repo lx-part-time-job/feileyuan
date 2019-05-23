@@ -20,9 +20,6 @@
       swiper,
       swiperSlide
     },
-    props: {
-      swiperList: Array
-    },
     data() {
       return {
         swiperOption: {
@@ -35,8 +32,22 @@
           autoplay: true,
           delay: 1500
         },
-        swiperImg: '/img/home/banner/banner1.png'
+        swiperImg: '/img/home/banner/banner1.png',
+        swiperList: []
       }
+    },
+    methods: {
+      getBannerList() {
+        this.$axios.get('/activity/getbannerlist')
+          .then(res => {
+            if(res.data.code === 0) {
+              this.swiperList = res.data.data
+            }
+          })
+      }
+    },
+    mounted() {
+      this.getBannerList()
     }
   }
 </script>

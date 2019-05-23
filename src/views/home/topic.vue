@@ -1,7 +1,7 @@
 <template>
   <div class="topic">
     <list-tab :tabList="tabList" @changeTab="changeTab" />
-    <article-list :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" />
+    <article-list :currentPage="currentPage" :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" type='topic' />
   </div>
 </template>
 
@@ -9,10 +9,11 @@
   import articleList from './components/articleList/index';
   import listTab from './components/listTab/index';
   import backTop from '../../../mixin/back_top';
+  import resetQuery from '../../../mixin/resetQuery';
 
   export default {
     name: "topic",
-    mixins: [backTop],
+    mixins: [backTop, resetQuery],
     components: {articleList, listTab},
     data() {
       return {
@@ -21,7 +22,8 @@
         hotTopicList: [],
         tabList: [{ name: '最新', index: 'new' }, { name: '最热', index: 'hot' }],
         total: 1,
-        index: ''
+        index: '',
+        currentPage: 1
       }
     },
     methods: {
@@ -51,8 +53,10 @@
       },
       changeTab(index) {
         this.index = index;
+        this.currentPage = 1;
         index === 'hot' && (this.articleList = this.hotTopicList);
         index === 'new' && (this.articleList = this.newTopicList);
+        this.resetQuery();
       }
     },
     mounted() {
@@ -61,8 +65,11 @@
     },
     watch: {
       $route (to, from) {
-        this.index && index === 'hot' && this.getHotTopicList(to.query.page);
-        this.index && index === 'new' && this.getNewTopicList(to.query.page);
+        if(this.index === 'hot') {
+          this.getHotTopicList(to.query.page);
+        } else {
+          this.getNewTopicList(to.query.page);
+        }
         this.goTop();
       }
     }

@@ -77,6 +77,7 @@
             margin-right: 60px;
             a {
               color: #fff;
+              font-size: 20px;
             }
           }
         }
@@ -84,10 +85,8 @@
           width: 714px;
           height: 111px;
           line-height: 1.714;
-
           p {
             font-size: 14px;
-            font-family: "PingFangSC";
             color: rgb(199, 225, 255);
           }
         }

@@ -13,8 +13,27 @@
 <script>
   export default {
     name: "advertise",
-    props: {
-      adList: Array
+    data() {
+      return {
+        adList: []
+      }
+    },
+    methods: {
+      getTopicList() {
+        this.$axios.get('/activity/getSpecialTopicList', {
+          params: {
+            page: 1
+          }
+        }).then(res => {
+          if (res.data.code === 0) {
+            let topicList = [...res.data.data];
+            this.adList = topicList.splice(3, 2);
+          }
+        })
+      }
+    },
+    mounted() {
+      this.getTopicList()
     }
   }
 </script>

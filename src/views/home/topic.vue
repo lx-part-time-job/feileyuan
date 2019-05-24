@@ -1,7 +1,7 @@
 <template>
   <div class="topic">
     <list-tab :tabList="tabList" @changeTab="changeTab" />
-    <article-list :currentPage="currentPage" :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" type='topic' />
+    <article-list :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" type='topic' />
   </div>
 </template>
 
@@ -9,11 +9,11 @@
   import articleList from './components/articleList/index';
   import listTab from './components/listTab/index';
   import backTop from '../../../mixin/back_top';
-  import resetQuery from '../../../mixin/resetQuery';
+  import changeQuery from '../../../mixin/change_query';
 
   export default {
     name: "topic",
-    mixins: [backTop, resetQuery],
+    mixins: [backTop, changeQuery],
     components: {articleList, listTab},
     data() {
       return {
@@ -21,9 +21,7 @@
         newTopicList: [],
         hotTopicList: [],
         tabList: [{ name: '最新', index: 'new' }, { name: '最热', index: 'hot' }],
-        total: 1,
-        index: '',
-        currentPage: 1
+        total: 1
       }
     },
     methods: {
@@ -46,31 +44,29 @@
           }
         }).then(res => {
           if(res.data.code === 0) {
-            this.hotTopicList = [...res.data.data];
+            this.articleList = this.hotTopicList = [...res.data.data];
             this.total = res.data.count
           }
         })
       },
       changeTab(index) {
-        this.index = index;
-        this.currentPage = 1;
-        index === 'hot' && (this.articleList = this.hotTopicList);
-        index === 'new' && (this.articleList = this.newTopicList);
-        this.resetQuery();
+        let page = this.$route.query.page;
+        index === 'hot' && this.getHotTopicList(page);
+        index === 'new' && this.getNewTopicList(page);
+        this.changeQuery({index});
       }
     },
     mounted() {
-      this.getNewTopicList();
-      this.getHotTopicList();
+      this.getNewTopicList(this.$route.query.page);
     },
     watch: {
-      $route (to, from) {
-        if(this.index === 'hot') {
-          this.getHotTopicList(to.query.page);
+      async $route (to, from) {
+        if(to.query.index === 'hot') {
+          await this.getHotTopicList(to.query.page);
         } else {
-          this.getNewTopicList(to.query.page);
+          await this.getNewTopicList(to.query.page);
         }
-        this.goTop();
+        await this.goTop();
       }
     }
   }

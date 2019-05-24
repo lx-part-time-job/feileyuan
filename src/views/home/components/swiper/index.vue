@@ -28,7 +28,6 @@
             bulletClass: 'bullet',
             bulletActiveClass: 'bullet-active'
           },
-          loop: true,
           autoplay: true,
           delay: 1500
         },

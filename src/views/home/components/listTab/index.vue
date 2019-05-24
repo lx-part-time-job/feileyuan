@@ -1,7 +1,7 @@
 <template>
   <div class="list-tab">
     <ul>
-      <li v-for="(item, i) in tabList" class="cursor fl tc" :class="index === i ? 'selected' : ''" @click="changeTab(i, item)">{{item.name}}</li>
+      <li v-for="(item, i) in tabList" class="cursor fl tc" :class="index === item.index ? 'selected' : ''" @click="changeTab(item)">{{item.name}}</li>
     </ul>
   </div>
 </template>
@@ -14,12 +14,12 @@
     },
     data() {
       return {
-        index: 0
+        index: this.$route.query.index || this.tabList[0].index
       }
     },
     methods: {
-      changeTab(i, item) {
-        this.index = i;
+      changeTab(item) {
+        this.index = item.index;
         this.$emit('changeTab', item.index)
       }
     }

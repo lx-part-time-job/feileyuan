@@ -4,7 +4,7 @@
       background
       @current-change="changePage"
       layout="prev, pager, next, jumper"
-      :current-page="currentPage"
+      :current-page="parseInt($route.query.page) || 1"
       :page-size="10"
       :total="total">
     </el-pagination>
@@ -12,11 +12,17 @@
 </template>
 
 <script>
-  import pagination from '../../../../../mixin/pagination';
+  import changeQuery from '../../../../../mixin/change_query';
   export default {
     name: "pagination",
-    mixins: [pagination],
-    props: ["total", "currentPage"]
+    mixins: [changeQuery],
+    props: ["total"],
+    methods: {
+      changePage(page) {
+        this.$route.query.index ? this.changeQuery({index: this.$route.query.index, page}) : this.changeQuery({page})
+
+      }
+    }
   }
 </script>
 

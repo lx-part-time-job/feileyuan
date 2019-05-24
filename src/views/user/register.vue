@@ -12,7 +12,7 @@
                       <div>
                           <img src="/img/user/icon-phone.png" alt="">
                       </div>
-                      <input v-model="userPhone" type="tel" placeholder="请输入的你的手机号码" />
+                      <input v-model="userPhone" type="tel" maxlength="11" placeholder="请输入的你的手机号码" />
                   </div>
                   <div class="phone">
                       <div>
@@ -105,23 +105,40 @@ export default {
     },
     methods: {
         register() {
-            // if (tab == 1 && (!userPhone || !password || !surePassword || !vCode)) return;
-            // if (tab == 2 && (!userEmail || !password || !surePassword || !))
-            // this.$axios.post('/users/register/mobile', {
-            //     userPhone: this.userPhone,
-            //     passWord: this.passWord,
-
-            // }).then(res => {
-            //     if (res.data.code == 0) {
-            //         // 登陆成功
-            //         let userInfo = {
-            //             token: res.data.data,
-            //         }
-            //         this.$setCookie("uInfo", JSON.stringify(userInfo));
-            //     } else {
-            //         this.$message.error(res.data.msg)
-            //     }
-            // })
+            if(this.tab == 2) return;
+            console.log(1);
+            if (!this.userPhone || !this.passWord || !this.surePassword || !this.vCode) return;
+            console.log(2);
+            if (this.passWord !== this.surePassword) {
+                this.$message.error('确认密码与密码需一致');
+                return
+            }
+            // if (tab == 2 && (!userEmail || !password || !surePassword ))
+            let that = this;
+            this.$axios.post('/users/register/mobile', {
+                userPhone: this.userPhone,
+                passWord: this.passWord,
+                vCode: this.vCode,
+            }).then(res => {
+                if (res.data.code == 0) {
+                    // 注册成功
+                    let userInfo = {
+                        token: res.data.data,
+                    }
+                    that.$setCookie("uInfo", JSON.stringify(userInfo));
+                    that.$message({
+                        message: res.data.msg,
+                        type: "success",
+                        duration: 3000,
+                        onClose() {
+                            window.location.replace("/");
+                        }
+                    });
+                    
+                } else {
+                    this.$message.error(res.data.msg)
+                }
+            })
         },
     }
 }

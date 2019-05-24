@@ -12,7 +12,7 @@
                       <div>
                           <img src="/img/user/icon-phone.png" alt="">
                       </div>
-                      <input v-model="loginName" type="tel" placeholder="请输入的你的手机号码" />
+                      <input v-model="userPhone" type="tel" placeholder="请输入的你的手机号码" />
                   </div>
                   <div class="phone">
                       <div>
@@ -27,7 +27,7 @@
                       <input v-model="surePassword" type="password" placeholder="请重复密码" />
                   </div>
                   <div class="phone">
-                      <input class="code-input" v-model="verificationCode" type="text" placeholder="输入验证码" />
+                      <input class="code-input" v-model="vCode" type="text" placeholder="输入验证码" />
                       <div class="get-code cursor">
                         <span>点击获取验证码</span>
                       </div>
@@ -38,7 +38,7 @@
                       <div>
                           <img src="/img/user/icon-phone.png" alt="">
                       </div>
-                      <input v-model="loginName" type="tel" placeholder="请输入的你的手机号码" />
+                      <input v-model="email" type="email" placeholder="请输入的你的邮箱" />
                   </div>
                   <div class="phone">
                       <div>
@@ -91,22 +91,26 @@ export default {
     name: "login",
     data() {
         return {
-            // loginName: "18616876125",
-            loginName:'',
+            // userPhone: "18616876125",
+            userPhone:'',
+            userEmail:'',
             // passWord: "123456"
             passWord:'',
             surePassword:'',
             emailCode:'',
-            verificationCode:'',
+            vCode:'',
             checked:false,
             tab:1,
         }
     },
     methods: {
         register() {
-            // this.$axios.post('/users/login', {
-            //     loginName: this.loginName,
-            //     passWord: this.passWord
+            // if (tab == 1 && (!userPhone || !password || !surePassword || !vCode)) return;
+            // if (tab == 2 && (!userEmail || !password || !surePassword || !))
+            // this.$axios.post('/users/register/mobile', {
+            //     userPhone: this.userPhone,
+            //     passWord: this.passWord,
+
             // }).then(res => {
             //     if (res.data.code == 0) {
             //         // 登陆成功

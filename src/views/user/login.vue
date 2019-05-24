@@ -70,6 +70,7 @@ export default {
     },
     methods: {
         login() {
+            let that = this;
             this.$axios.post('/users/login', {
                 loginName: this.loginName,
                 passWord: this.passWord
@@ -79,7 +80,8 @@ export default {
                     let userInfo = {
                         token: res.data.data,
                     }
-                    this.$setCookie("uInfo", JSON.stringify(userInfo));
+                    that.$setCookie("uInfo", JSON.stringify(userInfo));
+                    window.location.replace("/");
                 } else {
                     this.$message.error(res.data.msg)
                 }

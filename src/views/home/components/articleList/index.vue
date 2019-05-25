@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <Pagination :total="total" :currentPage="currentPage" />
+    <Pagination :total="total" />
   </div>
 </template>
 
@@ -25,7 +25,7 @@
   import Pagination from '../pagination/index';
   export default {
     name: "articleList",
-    props: ["articleList", "contentWidth", "isLeft", "mb", "total", "currentPage", "type"],
+    props: ["articleList", "contentWidth", "isLeft", "mb", "total", "type"],
     components: {Pagination},
     data() {
       return {

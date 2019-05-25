@@ -1,7 +1,7 @@
 <template>
   <div class="news">
     <list-tab :tabList="tabList" @changeTab="changeTab" />
-    <article-list :currentPage="currentPage" :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" />
+    <article-list :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" />
   </div>
 </template>
 
@@ -9,11 +9,11 @@
   import articleList from './components/articleList/index';
   import listTab from './components/listTab/index';
   import backTop from '../../../mixin/back_top';
-  import resetQuery from '../../../mixin/resetQuery';
+  import changeQuery from '../../../mixin/change_query';
 
   export default {
     name: "news",
-    mixins: [backTop, resetQuery],
+    mixins: [backTop, changeQuery],
     components: {articleList, listTab},
     data() {
       return {
@@ -21,9 +21,7 @@
         newArticleList: [],
         hotArticleList: [],
         tabList: [{ name: '最新', index: 'new' }, { name: '最热', index: 'hot' }],
-        total: 1,
-        index: '',
-        currentPage: 1
+        total: 1
       }
     },
     methods: {
@@ -46,22 +44,20 @@
           }
         }).then(res => {
           if(res.data.code === 0) {
-            this.hotArticleList = [...res.data.data];
+            this.articleList = this.hotArticleList = [...res.data.data];
             this.total = res.data.count
           }
         })
       },
       changeTab(index) {
-        this.index = index;
-        this.currentPage = 1;
-        this.resetQuery();
-        index === 'hot' && (this.articleList = this.hotArticleList);
-        index === 'new' && (this.articleList = this.newArticleList);
+        this.changeQuery({index});
+        let page = this.$route.query.page;
+        index === 'hot' && this.getHotArticleList(page);
+        index === 'new' && this.getNewArticleList(page);
       }
     },
     mounted() {
-      this.getNewArticleList();
-      this.getHotArticleList();
+      this.getNewArticleList(this.$route.query.page);
     },
     watch: {
       $route (to, from) {

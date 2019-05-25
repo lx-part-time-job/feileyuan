@@ -250,3 +250,10 @@ textarea {
 .cursor {
   cursor: pointer;
 }
+.cb::before,.cb::after{
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+    line-height: 0;
+}

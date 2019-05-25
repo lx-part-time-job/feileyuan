@@ -1,13 +1,24 @@
 <template>
   <div class="bbs">
-    <breadCrumb/>
+    <bbsnav></bbsnav>
+    <div class="container">
+      <div class="inner">
+        <div class="container-top cb">
+          <div class="fl">
+            <swiper />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import breadCrumb from "./components/breadcrumb";
+import bbsnav from "./components/bbsnav";
+import swiper from "./components/swiper/swiper";
 export default {
   name: "bbs",
-  components: { breadCrumb },
+  components: { breadCrumb, bbsnav, swiper },
   data() {
     return {};
   }
@@ -15,5 +26,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  padding-top: 40px;
+}
+.container-top{
+    
+}
 </style>
 

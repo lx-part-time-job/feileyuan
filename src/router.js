@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Default from './layout/default'
 import Wrapper from './layout/wrapper'
 import noFooter from './layout/noFooter'
+import bbsHeader from './layout/bbsHeader'
 
 Vue.use(Router);
 
@@ -114,6 +115,16 @@ const routes = new Router({
         name: 'findPassword',
         component: () =>
           import ('./views/user/findPassword.vue')
+      }]
+    },
+    {
+      path: '/',
+      component: bbsHeader,
+      children: [{
+        path: '/bbs',
+        name: 'bbs',
+        component: () =>
+          import('./views/bbs/index.vue')
       }]
     }
   ]

@@ -4,8 +4,8 @@
             <div class="left">
                 <p class="title">会员注册</p>
                 <ul class='tab'>
-                  <li class="cursor" @click='tab = 1' :class="tab == 1 ? 'active' : ''">通过短信注册</li>
-                  <li class="cursor" @click='tab = 2' :class="tab == 2 ? 'active' : ''">通过邮箱注册</li>
+                  <li class="cursor" @click='tab = 1 ; userPhone = "" ; passWord = "" ; surePassword = "" ; vCode = ""' :class="tab == 1 ? 'active' : ''">通过短信注册</li>
+                  <li class="cursor" @click='tab = 2 ; userEmail = "" ; passWord = "" ; surePassword = "" ; emailCode = ""' :class="tab == 2 ? 'active' : ''">通过邮箱注册</li>
                 </ul>
                 <div class="tab1" v-if='tab == 1'>
                   <div class="phone">
@@ -38,7 +38,7 @@
                       <div>
                           <img src="/img/user/icon-phone.png" alt="">
                       </div>
-                      <input v-model="email" type="email" placeholder="请输入的你的邮箱" />
+                      <input v-model="userEmail" type="email" placeholder="请输入的你的邮箱" />
                   </div>
                   <div class="phone">
                       <div>
@@ -105,40 +105,78 @@ export default {
     },
     methods: {
         register() {
-            if(this.tab == 2) return;
-            console.log(1);
-            if (!this.userPhone || !this.passWord || !this.surePassword || !this.vCode) return;
-            console.log(2);
-            if (this.passWord !== this.surePassword) {
-                this.$message.error('确认密码与密码需一致');
-                return
-            }
-            // if (tab == 2 && (!userEmail || !password || !surePassword ))
-            let that = this;
-            this.$axios.post('/users/register/mobile', {
-                userPhone: this.userPhone,
-                passWord: this.passWord,
-                vCode: this.vCode,
-            }).then(res => {
-                if (res.data.code == 0) {
-                    // 注册成功
-                    let userInfo = {
-                        token: res.data.data,
-                    }
-                    that.$setCookie("uInfo", JSON.stringify(userInfo));
-                    that.$message({
-                        message: res.data.msg,
-                        type: "success",
-                        duration: 3000,
-                        onClose() {
-                            window.location.replace("/");
-                        }
-                    });
-                    
-                } else {
-                    this.$message.error(res.data.msg)
+            if(this.tab == 1){
+                if (!this.userPhone || !this.passWord || !this.surePassword || !this.vCode) return;
+                if (!(/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9]|19[0-9]|16[0-9])\d{8}$/.test(this.userPhone))){
+                    this.$message.error('请输入正确的手机号');
+                    return
                 }
-            })
+                if (this.passWord !== this.surePassword) {
+                    this.$message.error('确认密码与密码需一致');
+                    return
+                }
+                let that = this;
+                this.$axios.post('/users/register/mobile', {
+                    userPhone: this.userPhone,
+                    passWord: this.passWord,
+                    vCode: this.vCode,
+                }).then(res => {
+                    if (res.data.code == 0) {
+                        // 注册成功
+                        let userInfo = {
+                            token: res.data.data,
+                        }
+                        that.$setCookie("uInfo", JSON.stringify(userInfo));
+                        that.$message({
+                            message: res.data.msg,
+                            type: "success",
+                            duration: 3000,
+                            onClose() {
+                                window.location.replace("/");
+                            }
+                        });
+                        
+                    } else {
+                        this.$message.error(res.data.msg)
+                    }
+                })
+            }else if (this.tab ==2) {
+                if (!this.userEmail || !this.passWord || !this.surePassword || !this.emailCode) return;
+                if (!(/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(this.userEmail))){
+                    this.$message.error('请输入正确的邮箱');
+                    return
+                }
+                if (this.passWord !== this.surePassword) {
+                    this.$message.error('确认密码与密码需一致');
+                    return
+                }
+                let data = {
+                    userEmail: this.userEmail,
+                    passWord:this.passWord,
+                    emailCode:this.emailCode
+                }
+                let that = this;
+                this.$axios.post('/users/register/email',data).then(res => {
+                    if (res.data.code == 0) {
+                        // 注册成功
+                        let userInfo = {
+                            token: res.data.data,
+                        }
+                        that.$setCookie("uInfo", JSON.stringify(userInfo));
+                        that.$message({
+                            message: res.data.msg,
+                            type: "success",
+                            duration: 3000,
+                            onClose() {
+                                window.location.replace("/");
+                            }
+                        });
+                        
+                    } else {
+                        this.$message.error(res.data.msg)
+                    }
+                })
+            }
         },
     }
 }

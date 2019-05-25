@@ -7,6 +7,38 @@ import noFooter from './layout/noFooter'
 
 Vue.use(Router);
 
+import {
+    SetCookies,
+    GetCookies
+} from './../utils/setCookies.js'
+
+let isLogin = () => { //判断是否登录
+    try {
+        let cookie = GetCookies('uInfo');
+        let userInfo = JSON.parse(cookie);
+        return !!(userInfo && userInfo.token);
+    } catch (e) {
+        console.log(e, 'nologin');
+        return false;
+    }
+
+}
+
+let limitNotLogin = (to, from, next) => {
+    if (isLogin()) {
+        next('/');
+    } else {
+        next();
+    }
+};
+let limitLogin = (to, from, next) => { //登陆限制 
+    if (isLogin()) {
+        next();
+    } else {
+        next(`/login`);
+    }
+};
+
 const routes = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
@@ -35,6 +67,11 @@ const routes = new Router({
         component: () =>
           import ('./views/home/topic.vue')
       }, {
+        path: 'activities',
+        name: 'activities',
+        component: () =>
+          import ('./views/home/activities.vue')
+      }, {
         path: 'user',
         component: Wrapper,
         children: [
@@ -58,11 +95,13 @@ const routes = new Router({
       children: [{
         path: '/login',
         name: 'login',
+        beforeEnter: limitNotLogin,
         component: () =>
           import ('./views/user/login.vue')
       },{
         path: '/register',
         name: 'register',
+        beforeEnter: limitNotLogin,
         component: () =>
           import ('./views/user/register.vue')
       },{

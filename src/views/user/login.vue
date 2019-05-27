@@ -79,6 +79,7 @@ export default {
                     // 登陆成功
                     let userInfo = {
                         token: res.data.data,
+                        loginName: that.loginName,
                     }
                     that.$setCookie("uInfo", JSON.stringify(userInfo));
                     window.location.replace("/");

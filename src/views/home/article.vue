@@ -470,4 +470,12 @@
   .relative {
     position: relative;
   }
+  .article-content{
+    font:17px/32px Microsoft Yahei;
+    color:#404040;
+    margin:32px 0 0;
+  }
+  .article-content p{
+    padding: 5px 0;
+  }
 </style>

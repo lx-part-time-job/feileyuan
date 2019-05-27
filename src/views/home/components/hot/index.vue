@@ -1,7 +1,7 @@
 <template>
   <div class="hot">
     <side-list :titleImg="titleImg" :sideHeaderList="sideHeaderList" :sideFooterList="sideFooterList"
-               :isActivity="isActivity" :side_icon="side_icon"/>
+               :isActivity="isActivity" :side_icon="side_icon" :index='index'/>
   </div>
 </template>
 
@@ -17,7 +17,8 @@
         side_icon: '/img/home/icons/fire.png',
         sideHeaderList: [],
         sideFooterList: [],
-        isActivity: false
+        isActivity: false,
+        index:'hot'
       }
     },
     mounted() {

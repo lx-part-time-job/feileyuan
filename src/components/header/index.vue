@@ -78,7 +78,7 @@
 				<router-link to=""><img src="../../assets/images/home/nav/chat.png" alt="" class="icon"></router-link>
 				<router-link to=""><img src="../../assets/images/home/nav/friend.png" alt="" class="icon"></router-link>
 				<router-link to=""><img src="../../assets/images/home/nav/setting.png" alt="" class="icon"></router-link>
-				<img src="../../assets/images/home/nav/quit.png" alt="" class="icon">
+				<img @click='logout' src="../../assets/images/home/nav/quit.png" alt="" class="icon cursor">
 			</div>
 		</div>
 	</div>
@@ -90,6 +90,11 @@
 		data(){
 			return{
 				keywords:''
+			}
+		},
+		methods:{
+			logout(){
+				
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <template>
   <div class="side-list">
     <img class="title-img" :src="titleImg" alt=""/>
-    <div class="side-item" v-for="(sideItem, index) in sideHeaderList">
+    <div class="side-item cursor" v-for="(sideItem, index) in sideHeaderList" @click='goArticle(sideItem.id)'>
       <div v-if="isActivity">
         <div class="news-content">
           <img class="news-img-l" :src="$IMG_URL + sideItem.imgurl" alt="">
@@ -16,7 +16,7 @@
         <img class="news-img" :src="$IMG_URL + sideItem.imgurl" alt="">
       </div>
     </div>
-    <div class="side-item" v-for="(sideItem, index) in sideFooterList">
+    <div class="side-item cursor" v-for="(sideItem, index) in sideFooterList" @click='goArticle(sideItem.id)'>
       <p class="news-content">
         <img class="news-icon" :src="side_icon" alt="">
         <span class="news-title textEllipsis">{{sideItem.title}}</span>
@@ -33,7 +33,15 @@
       sideFooterList: Array,
       isActivity: Boolean,
       titleImg: String,
-      side_icon: String
+      side_icon: String,
+      index: String
+    },
+    methods:{
+      goArticle(id){
+        if(this.index == 'hot'){
+           this.$router.push(`/article/${id}`)
+        }
+      }
     }
   }
 </script>

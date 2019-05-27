@@ -57,5 +57,7 @@
     width: 100%;
     height: 192px;
     display: block;
+    background-color: #fff;
+    border-radius: 5px;
   }
 </style>

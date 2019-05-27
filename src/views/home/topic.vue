@@ -51,8 +51,8 @@
       },
       changeTab(index) {
         let page = this.$route.query.page;
-        index === 'hot' && this.getHotTopicList(page);
-        index === 'new' && this.getNewTopicList(page);
+        index === 'hot' && (this.articleList = this.hotTopicList);
+        index === 'new' && (this.articleList = this.newTopicList);
         this.changeQuery({index});
       }
     },

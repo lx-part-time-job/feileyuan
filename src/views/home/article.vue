@@ -155,7 +155,7 @@
             }
           })
       },
-      getRecommendList(id) {
+      getRecommendList( id) {
         this.$axios.get('/recommend/getRecommendInformation/' + id)
           .then(res => {
             if(res.data.code === 0) {
@@ -163,23 +163,24 @@
             }
           })
       },
-      getCommentList(page) {
-        this.$axios.post('/comment/getInfoList/', {
-          Infoid: this.$route.params.articleID,
+      getCommentList(id, page) {
+        this.$axios.post('/information/getInfoList/', {
+          Infoid: id,
           page: page || 1
         }).then(res => {
             if(res.data.code === 0) {
               this.commentList = res.data.data
-              console.log(res.data.data[0])
             }
           })
       }
     },
     mounted() {
-      let id = this.$route.params.articleID;
+      let id = this.$route.params.articleID
+        // classify = this.$route.path.split('/')[1];
+      // classify === 'article'
       this.getArticleInfo(id);
       this.getRecommendList(id);
-      this.getCommentList()
+      this.getCommentList(id)
     }
   }
 </script>

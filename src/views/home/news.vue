@@ -52,8 +52,8 @@
       changeTab(index) {
         this.changeQuery({index});
         let page = this.$route.query.page;
-        index === 'hot' && this.getHotArticleList(page);
-        index === 'new' && this.getNewArticleList(page);
+        index === 'hot' && (this.articleList = this.hotArticleList);
+        index === 'new' && (this.articleList = this.newArticleList);
       }
     },
     mounted() {
@@ -61,6 +61,7 @@
     },
     watch: {
       $route (to, from) {
+        console.log(to.query)
         if(this.index === 'hot') {
           this.getHotArticleList(to.query.page);
         } else {

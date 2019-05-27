@@ -1,7 +1,7 @@
 <template>
-  <div class="topic">
+  <div class="activity">
     <list-tab :tabList="tabList" @changeTab="changeTab" />
-    <article-list :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" type='topic' />
+    <article-list :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" type='activity' />
   </div>
 </template>
 
@@ -12,59 +12,59 @@
   import changeQuery from '../../../mixin/change_query';
 
   export default {
-    name: "topic",
+    name: "activity",
     mixins: [backTop, changeQuery],
     components: {articleList, listTab},
     data() {
       return {
         articleList: [],
-        newTopicList: [],
-        hotTopicList: [],
+        newActivityList: [],
+        hotActivityList: [],
         tabList: [{ name: '最新', index: 'new' }, { name: '最热', index: 'hot' }],
         total: 1
       }
     },
     methods: {
-      getNewTopicList(page) {
+      getNewActivityList(page) {
         this.$axios.get('/activity/', {
           params: {
             page: page || 1
           }
         }).then(res => {
           if(res.data.code === 0) {
-            this.articleList = this.newTopicList = [...res.data.data];
+            this.articleList = this.newactivityList = [...res.data.data];
             this.total = res.data.count;
           }
         })
       },
-      getHotTopicList(page) {
+      getHotActivityList(page) {
         this.$axios.get('/activity/', {
           params: {
             page: page || 1
           }
         }).then(res => {
           if(res.data.code === 0) {
-            this.articleList = this.hotTopicList = [...res.data.data];
+            this.articleList = this.hotActivityList = [...res.data.data];
             this.total = res.data.count
           }
         })
       },
       changeTab(index) {
         let page = this.$route.query.page;
-        index === 'hot' && this.getHotTopicList(page);
-        index === 'new' && this.getNewTopicList(page);
+        index === 'hot' && (this.articleList = this.hotActivityList);
+        index === 'new' && (this.articleList = this.newactivityList);
         this.changeQuery({index});
       }
     },
     mounted() {
-      this.getNewTopicList(this.$route.query.page);
+      this.getNewActivityList(this.$route.query.page);
     },
     watch: {
       async $route (to, from) {
         if(to.query.index === 'hot') {
-          await this.getHotTopicList(to.query.page);
+          await this.getHotActivityList(to.query.page);
         } else {
-          await this.getNewTopicList(to.query.page);
+          await this.getNewActivityList(to.query.page);
         }
         await this.goTop();
       }
@@ -73,7 +73,7 @@
 </script>
 
 <style scoped>
-  .topic {
+  .activity {
     padding-right: 30px;
     box-sizing: border-box;
     margin-top: 20px;

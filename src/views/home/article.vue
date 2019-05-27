@@ -147,23 +147,23 @@
       }
     },
     methods: {
-      getArticleInfo(id) {
-        this.$axios.get('/information/' + id)
+      getArticleInfo(url) {
+        this.$axios.get(url)
           .then(res => {
             if(res.data.code === 0) {
               this.articleInfo = res.data.data
             }
           })
       },
-      getRecommendList( id) {
-        this.$axios.get('/recommend/getRecommendInformation/' + id)
+      getRecommendList(url) {
+        this.$axios.get(url)
           .then(res => {
             if(res.data.code === 0) {
               this.recommendList = res.data.data
             }
           })
       },
-      getCommentList(id, page) {
+      getCommentList(url, id, page) {
         this.$axios.post('/information/getInfoList/', {
           Infoid: id,
           page: page || 1
@@ -175,12 +175,14 @@
       }
     },
     mounted() {
-      let id = this.$route.params.articleID
-        // classify = this.$route.path.split('/')[1];
-      // classify === 'article'
-      this.getArticleInfo(id);
-      this.getRecommendList(id);
-      this.getCommentList(id)
+      let id = this.$route.params.articleID,
+        classify = this.$route.path.split('/')[1],
+        infoUrl, recommendUrl, commentUrl;
+      classify === 'news' && (infoUrl = '/information/' + id) && (recommendUrl = '/recommend/getRecommendInformation/' + id) && (commentUrl = '/information/getInfoList/');
+      classify === 'activity' && (infoUrl = '/activity/activity/' + id) && (recommendUrl = '/recommend/getRecommendActivity/' + id) && (commentUrl = '/activity/getInfoList/');
+      this.getArticleInfo(infoUrl, id);
+      this.getRecommendList(recommendUrl, id);
+      this.getCommentList(commentUrl, id)
     }
   }
 </script>

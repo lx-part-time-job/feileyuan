@@ -1,6 +1,6 @@
 <template>
   <div class="activity">
-    <side-list :titleImg="titleImg" :sideHeaderList="sideHeaderList" :sideFooterList="sideFooterList" :isActivity="isActivity" :side_icon="side_icon" />
+    <side-list :titleImg="titleImg" :sideHeaderList="sideHeaderList" :sideFooterList="sideFooterList" :isActivity="isActivity" :side_icon="side_icon" :index='index' />
   </div>
 </template>
 
@@ -15,7 +15,8 @@
         side_icon: '/img/home/icons/football.png',
         sideHeaderList: [],
         sideFooterList: [],
-        isActivity: true
+        isActivity: true,
+        index: 'activity'
       }
     },
     mounted() {

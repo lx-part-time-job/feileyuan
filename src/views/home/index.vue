@@ -9,6 +9,7 @@
           :contentWidth="460"
           :isLeft="true"
           :mb="0"
+          type="news"
         />
       </div>
     </div>

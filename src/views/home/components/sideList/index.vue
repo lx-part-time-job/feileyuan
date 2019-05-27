@@ -38,9 +38,8 @@
     },
     methods:{
       goArticle(id){
-        if(this.index == 'hot'){
-           this.$router.push(`/article/${id}`)
-        }
+        this.index === 'hot' && this.$router.push(`/news/${id}`);
+        this.index === 'activity' && this.$router.push(`/activity/${id}`);
       }
     }
   }

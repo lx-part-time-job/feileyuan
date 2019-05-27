@@ -57,7 +57,7 @@
 				<el-menu-item index="/news">资讯</el-menu-item>
 				<el-menu-item index="/bbs">论坛</el-menu-item>
 				<el-menu-item index="/topic">专题</el-menu-item>
-				<el-menu-item index="/activities">活动</el-menu-item>
+				<el-menu-item index="/activity">活动</el-menu-item>
 			</el-menu>
 
 			<div class="search fl ov">

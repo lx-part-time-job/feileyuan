@@ -58,15 +58,15 @@
 
       <div class="comment-box relative">
         <!-- 登录后，输入评论的容器 -->
-        <textarea class="comment-content" readonly></textarea>
+        <textarea class="comment-content" v-model="comment" :readonly="!checkLoginState()"></textarea>
 
         <!-- 未登录时 -->
-        <div class="comment-login ov">
+        <div v-if="!checkLoginState()" class="comment-login ov">
           <span class="fl">期待你的神评</span>
-          <a class="fl" href="#">请先登录</a>
+          <router-link class="fl cursor" to="/login">请先登录</router-link>
         </div>
       </div>
-      <input type="button" value="发表回复" class="comment-reply">
+      <input type="button" value="发表回复" class="comment-reply" @click="publishReply">
     </div>
 
     <!-- 评论列表 -->
@@ -155,7 +155,8 @@
         commentList: [],
         recommendLeftList: [],
         recommendRightList: [],
-        firstBread: ""
+        firstBread: "",
+        comment: ""
       }
     },
     methods: {
@@ -211,6 +212,31 @@
           default:
             this.firstBread = "活动";
         }
+      },
+      checkLoginState() {
+        let cookie = this.$getCookie('uInfo');
+        let userInfo = JSON.parse(cookie);
+        if(userInfo && userInfo.token) {
+          return true
+        }
+      },
+      publishReply() {
+        let type,
+          outid = this.$route.params.articleID,
+          classify = this.$route.path.split('/')[1],
+          comment = this.comment;
+        if(classify === 'news') {
+          type = 1
+        } else {
+          type = 3
+        }
+        this.$axios.post('/comment/getInfoList', {
+          type, outid, comment
+        }).then(res => {
+          if(res.data.code === 0) {
+            console.log(res.data.data)
+          }
+        })
       }
     },
     mounted() {
@@ -327,7 +353,6 @@
     }
   }
 
-
   .comment-box {
     border-radius: 6px;
     box-shadow: 0 1px 5px 0 #f3f3f3;
@@ -341,6 +366,8 @@
 
   .comment-content {
     background-color: #f3f3f3;
+    padding: 15px;
+    box-sizing: border-box;
   }
 
   .comment-login {
@@ -361,7 +388,7 @@
     margin-right: 35px;
   }
 
-  .comment-login > a,
+  .comment-login a,
   .comment-reply {
     color: #fff;
     width: 145px;

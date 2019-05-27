@@ -1,23 +1,23 @@
 <template>
-  <div class="side-list">
+  <div class="side-list" @mouseleave="leaveList">
     <img class="title-img" :src="titleImg" alt=""/>
-    <div class="side-item cursor" v-for="(sideItem, index) in sideHeaderList" @click='goArticle(sideItem.id)'>
-      <div v-if="isActivity">
-        <div class="news-content">
-          <img class="news-img-l" :src="$IMG_URL + sideItem.imgurl" alt="">
-          <p class="news-title news-title-r fr">{{sideItem.title}}</p>
+    <div class="side-item cursor" v-for="(sideItem, index) in list" @click='goArticle(sideItem.id)' @mouseenter="hoverItem(index)">
+      <div v-if="index === i">
+        <div v-if="isActivity">
+          <div class="news-content">
+            <img class="news-img-l" :src="$IMG_URL + sideItem.imgurl" alt="">
+            <p class="news-title news-title-r fr">{{sideItem.title}}</p>
+          </div>
+        </div>
+        <div v-else>
+          <p class="news-content">
+            <img class="news-icon" :src="side_icon" alt="">
+            <span class="news-title textEllipsis">{{sideItem.title}}</span>
+          </p>
+          <img class="news-img" :src="$IMG_URL + sideItem.imgurl" alt="">
         </div>
       </div>
-      <div v-else>
-        <p class="news-content">
-          <img class="news-icon" :src="side_icon" alt="">
-          <span class="news-title textEllipsis">{{sideItem.title}}</span>
-        </p>
-        <img class="news-img" :src="$IMG_URL + sideItem.imgurl" alt="">
-      </div>
-    </div>
-    <div class="side-item cursor" v-for="(sideItem, index) in sideFooterList" @click='goArticle(sideItem.id)'>
-      <p class="news-content">
+      <p v-else class="news-content">
         <img class="news-icon" :src="side_icon" alt="">
         <span class="news-title textEllipsis">{{sideItem.title}}</span>
       </p>
@@ -29,18 +29,54 @@
   export default {
     name: "sideList",
     props: {
-      sideHeaderList: Array,
-      sideFooterList: Array,
       isActivity: Boolean,
       titleImg: String,
       side_icon: String,
-      index: String
+      index: String,
+      url: String,
+    },
+    data() {
+      return {
+        list: [],
+        i: 0
+      }
     },
     methods:{
+      hoverItem(index) {
+        this.i = index;
+      },
+      leaveList() {
+        this.i = 0;
+      },
       goArticle(id){
-        this.index === 'hot' && this.$router.push(`/news/${id}`);
-        this.index === 'activity' && this.$router.push(`/activity/${id}`);
+        this.index === 'hot' && window.open(location.origin + '/news/' + id);
+        this.index === 'activity' && window.open(location.origin + '/activity/' + id);
+      },
+      getDataList(page) {
+        this.$axios.get(this.url, {
+          params: {
+            page: page || 1
+          }
+        }).then(res => {
+          if (res.data.code === 0) {
+            let dataList = [...res.data.data];
+            if(this.index === 'hot') {
+              dataList.map(item => {
+                item.type === 1 && this.list.push(item)
+              });
+            } else if(this.index === 'activity') {
+              dataList.map(item => {
+                item.type === 2 && this.list.push(item)
+              });
+            } else {
+              this.list = dataList
+            }
+          }
+        })
       }
+    },
+    mounted() {
+      this.getDataList()
     }
   }
 </script>

@@ -58,8 +58,8 @@ const routes = new Router({
         component: () =>
           import ('./views/home/news.vue')
       }, {
-        path: 'article/:articleID',
-        name: 'article',
+        path: 'news/:articleID',
+        name: 'newsArticle',
         component: () =>
           import ('./views/home/article.vue')
       }, {
@@ -68,10 +68,15 @@ const routes = new Router({
         component: () =>
           import ('./views/home/topic.vue')
       }, {
-        path: 'activities',
-        name: 'activities',
+        path: 'activity',
+        name: 'activity',
         component: () =>
           import ('./views/home/activities.vue')
+      }, {
+        path: 'activity/:articleID',
+        name: 'activityArticle',
+        component: () =>
+          import ('./views/home/article.vue')
       }, {
         path: 'user',
         component: Wrapper,

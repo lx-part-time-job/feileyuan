@@ -51,10 +51,11 @@
         }
       },
       toArticleInfo(item) {
+        console.log(this.type)
         if(this.type === 'topic') {
           item.topicurl && window.open(item.topicurl);
         } else {
-          this.$router.push('/article/' + item.id)
+          this.$router.push('/' + this.type + '/' + item.id)
         }
       }
     }

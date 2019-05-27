@@ -125,6 +125,7 @@ export default {
                         // 注册成功
                         let userInfo = {
                             token: res.data.data,
+                            loginName: that.userPhone,
                         }
                         that.$setCookie("uInfo", JSON.stringify(userInfo));
                         that.$message({
@@ -161,6 +162,7 @@ export default {
                         // 注册成功
                         let userInfo = {
                             token: res.data.data,
+                            loginName: that.userEmail,
                         }
                         that.$setCookie("uInfo", JSON.stringify(userInfo));
                         that.$message({

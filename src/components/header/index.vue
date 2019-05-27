@@ -94,7 +94,32 @@
 		},
 		methods:{
 			logout(){
-				
+				try {
+					let uInfo = JSON.parse(this.$getCookie('uInfo'));
+					let that = this;
+					if(uInfo && uInfo.loginName){
+						this.$axios.post('/users/logout',{},{
+							headers: {
+		                        "loginName": uInfo.loginName,
+		                    }
+						}).then(res =>{
+							if(res.data.code == 0){
+								that.$delCookie("uInfo");
+								that.$message({
+				                    message: '退出成功',
+				                    type: "success",
+				                    duration: 2000,
+				                    onClose() {
+				                        that.$router.go(0);
+				                    }
+				                });
+							}
+						})
+					}
+				} catch(e) {
+					// statements
+					console.log(e);
+				}
 			}
 		}
 	}

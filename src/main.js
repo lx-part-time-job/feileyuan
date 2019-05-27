@@ -7,12 +7,12 @@ import ElementUI from 'element-ui';
 import axios from './assets/js/http';
 import { formatDate } from './assets/js/formatDate';
 import utils from '../utils';
-import { SetCookies ,  GetCookies, DelCookies } from './../utils/setCookies.js'
+import { SetCookies, GetCookies, DelCookies } from './../utils/setCookies.js'
 import 'element-ui/lib/theme-chalk/index.css';
 import '../public/css/reset.css';
 import './assets/icon/iconfont.css'
 
-const IMG_URL = 'http://124.156.160.86';
+const IMG_URL = 'http://150.109.50.3';
 
 Vue.config.productionTip = false;
 
@@ -28,7 +28,7 @@ Vue.prototype.$getCookie = GetCookies;
 Vue.prototype.$delCookie = DelCookies;
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app');

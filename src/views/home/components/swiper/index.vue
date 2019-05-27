@@ -39,6 +39,7 @@
       getBannerList() {
         this.$axios.get('/activity/getbannerlist')
           .then(res => {
+            console.log(res.data)
             if(res.data.code === 0) {
               this.swiperList = res.data.data
             }
@@ -54,12 +55,18 @@
 <style scoped>
   .swiper-wrapper {
     height: 400px;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
   .swiper-img {
-    width: 100%;
-    height: 100%;
+    width: 805px;
+    height: 400px;
     border-radius: 5px;
+    display: block;
+  }
+  img{
+    background-color: #fff;
   }
 </style>
 

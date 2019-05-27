@@ -7,6 +7,9 @@
           <div class="fl">
             <swiper />
           </div>
+          <div class="fl">
+            <subject />
+          </div>
         </div>
       </div>
     </div>
@@ -15,10 +18,11 @@
 <script>
 import breadCrumb from "./components/breadcrumb";
 import bbsnav from "./components/bbsnav";
-import swiper from "./components/swiper/swiper";
+import swiper from "./components/swiper/index";
+import subject from "./components/subject/index";
 export default {
   name: "bbs",
-  components: { breadCrumb, bbsnav, swiper },
+  components: { breadCrumb, bbsnav, swiper,subject },
   data() {
     return {};
   }
@@ -29,8 +33,7 @@ export default {
 .container {
   padding-top: 40px;
 }
-.container-top{
-    
+.container-top {
 }
 </style>
 

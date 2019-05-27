@@ -174,9 +174,11 @@
         this.$axios.get(url)
           .then(res => {
             if (res.data.code === 0) {
-              this.recommendList = res.data.data;
+              var dw = this.uniqeByKeys(res.data.data,['id']);
+              console.log(dw,"dw");
+              this.recommendList = dw;
               this.recommendRightList = this.recommendList.splice(0, 2);
-              this.recommendLeftList = this.recommendList.splice(0, 4);
+              this.recommendLeftList = this.recommendList.splice(0, 5);
             }
           })
       },
@@ -211,7 +213,27 @@
           default:
             this.firstBread = "活动";
         }
-      }
+      },
+      obj2key(obj, keys) {
+        var n = keys.length,
+                key = [];
+        while (n--) {
+          key.push(obj[keys[n]]);
+        }
+        return key.join('|');
+      },
+      uniqeByKeys(array, keys) {
+        var arr = [];
+        var hash = {};
+        for (var i = 0, j = array.length; i < j; i++) {
+          var k = this.obj2key(array[i], keys);
+          if (!(k in hash)) {
+            hash[k] = true;
+            arr.push(array[i]);
+          }
+        }
+        return arr;
+  }
     },
     mounted() {
       this.getData()

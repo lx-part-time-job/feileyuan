@@ -51,7 +51,6 @@
         }
       },
       toArticleInfo(item) {
-        console.log(this.type)
         if(this.type === 'topic') {
           item.topicurl && window.open(item.topicurl);
         } else {

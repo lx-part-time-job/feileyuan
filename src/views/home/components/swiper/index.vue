@@ -39,7 +39,6 @@
       getBannerList() {
         this.$axios.get('/activity/getbannerlist')
           .then(res => {
-            console.log(res.data)
             if(res.data.code === 0) {
               this.swiperList = res.data.data
             }

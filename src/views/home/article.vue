@@ -161,7 +161,7 @@
     },
     methods: {
       toRelatedArticle(id){
-        this.$router.push('/' + this.$route.path.split('/')[1] + '/' + id)
+        window.open(location.origin + '/' + this.$route.path.split('/')[1] + '/' + id)
       },
       getArticleInfo(url) {
         this.$axios.get(url)

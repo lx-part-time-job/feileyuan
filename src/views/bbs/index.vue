@@ -5,10 +5,13 @@
       <div class="inner">
         <div class="container-top cb">
           <div class="fl">
-            <swiper />
+            <swiper/>
           </div>
           <div class="fl">
-            <subject />
+            <subject/>
+          </div>
+          <div class="fr">
+            <tel/>
           </div>
         </div>
       </div>
@@ -20,9 +23,10 @@ import breadCrumb from "./components/breadcrumb";
 import bbsnav from "./components/bbsnav";
 import swiper from "./components/swiper/index";
 import subject from "./components/subject/index";
+import tel from "./components/tel/index";
 export default {
   name: "bbs",
-  components: { breadCrumb, bbsnav, swiper,subject },
+  components: { breadCrumb, bbsnav, swiper, subject,tel },
   data() {
     return {};
   }

@@ -24,15 +24,19 @@
     },
     methods: {
       getActivityList(page) {
-        this.$axios.get('/activity/getHotActivityList', {
+        this.$axios.get('/information/getHotInformationActivityList', {
           params: {
             page: page || 1
           }
         }).then(res => {
           if (res.data.code === 0) {
             let dataList = [...res.data.data];
-            this.sideHeaderList = dataList.splice(0, 3);
-            this.sideFooterList = dataList.splice(0, 5);
+            let hotList = [];
+            dataList.map(item => {
+              item.type === 2 && hotList.push(item)
+            });
+            this.sideHeaderList = hotList.splice(0, 3);
+            this.sideFooterList = hotList.splice(0, 5);
           }
         })
       }

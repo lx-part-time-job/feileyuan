@@ -54,7 +54,7 @@
         if(this.type === 'topic') {
           item.topicurl && window.open(item.topicurl);
         } else {
-          window.open(location.origin + '/' + this.type + '/' + item.id)
+          window.open(location.origin + '/#/' + this.type + '/' + item.id)
         }
       }
     }

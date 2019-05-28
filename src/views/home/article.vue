@@ -17,8 +17,8 @@
       <div class="article-wrapper tc">
         <span class="article-info icon-news">新闻资讯</span>
         <span class="article-info icon-author">{{articleInfo.authorname}} 发表于 {{$formatDate(articleInfo.publishtime, "yyyy-MM-dd hh:mm:ss")}}</span>
-        <span class="article-info icon-watch">阅读数 {{articleInfo.viewcount}}</span>
-        <span class="article-info icon-comment">评论数 {{articleInfo.commentcount}}</span>
+        <span class="article-info icon-watch">阅读数 {{viewCount}}</span>
+        <span class="article-info icon-comment">评论数 {{commentCount}}</span>
       </div>
 
       <!-- 用于填充资讯内容 -->
@@ -54,7 +54,7 @@
 
     <!-- comment -->
     <div class="comment part">
-      <h4 class="part-title">评论（{{articleInfo.commentcount}}条）</h4>
+      <h4 class="part-title">评论（{{commentCount}}条）</h4>
 
       <div class="comment-box relative">
         <!-- 登录后，输入评论的容器 -->
@@ -156,12 +156,14 @@
         recommendLeftList: [],
         recommendRightList: [],
         firstBread: "",
-        comment: ""
+        comment: "",
+        viewCount: "",
+        commentCount: ""
       }
     },
     methods: {
       toRelatedArticle(id){
-        window.open(location.origin + '/' + this.$route.path.split('/')[1] + '/' + id)
+        window.open(location.origin + '/#/' + this.$route.path.split('/')[1] + '/' + id)
       },
       getArticleInfo(url) {
         this.$axios.get(url)
@@ -176,7 +178,6 @@
           .then(res => {
             if (res.data.code === 0) {
               var dw = this.uniqeByKeys(res.data.data,['id']);
-              console.log(dw,"dw");
               this.recommendList = dw;
               this.recommendRightList = this.recommendList.splice(0, 2);
               this.recommendLeftList = this.recommendList.splice(0, 5);
@@ -197,12 +198,24 @@
       getData() {
         let id = this.$route.params.articleID,
           classify = this.$route.path.split('/')[1],
-          infoUrl, recommendUrl, commentUrl;
-        classify === 'news' && (infoUrl = '/information/' + id) && (recommendUrl = '/recommend/getRecommendInformation/' + id) && (commentUrl = '/information/getInfoList/');
-        classify === 'activity' && (infoUrl = '/activity/activity/' + id) && (recommendUrl = '/recommend/getRecommendActivity/' + id) && (commentUrl = '/information/getActivityList/');
+          infoUrl, recommendUrl, commentUrl, viewCountUrl, commentCountUrl;
+        classify === 'news'
+          && (infoUrl = '/information/' + id)
+          && (recommendUrl = '/recommend/getRecommendInformation/' + id)
+          && (commentUrl = '/information/getInfoList/')
+          && (viewCountUrl = '/information/update/count/' + id)
+          && (commentCountUrl = '/information/getCommentCount/' + id);
+        classify === 'activity'
+          && (infoUrl = '/activity/activity/' + id)
+          && (recommendUrl = '/recommend/getRecommendActivity/' + id)
+          && (commentUrl = '/information/getActivityList/')
+          && (viewCountUrl = '/activity/update/count/' +id)
+          && (commentCountUrl = '/activity/getCommentCount/' + id);
         this.getArticleInfo(infoUrl, id);
         this.getRecommendList(recommendUrl, id);
         this.getCommentList(commentUrl, id);
+        this.updateViewCount(viewCountUrl);
+        this.getCommentCount(commentCountUrl);
         this.goTop();
       },
       getFirstBread() {
@@ -224,7 +237,7 @@
       },
       publishReply() {
         let type,
-          outid = this.$route.params.articleID,
+          outid = Number(this.$route.params.articleID),
           classify = this.$route.path.split('/')[1],
           comment = this.comment;
         if(classify === 'news') {
@@ -232,9 +245,12 @@
         } else {
           type = 3
         }
-        this.$axios.post('/comment/getInfoList', {
-          type, outid, comment
+        this.$axios.post('/comment/getInfoList/', {
+          type, outid, comment,
+          touserid: null,
+          Commentid: null
         }).then(res => {
+          console.log(res)
           if(res.data.code === 0) {
             console.log(res.data.data)
           }
@@ -259,11 +275,27 @@
           }
         }
         return arr;
-  }
+      },
+      updateViewCount(url) {
+        this.$axios.post(url)
+          .then(res => {
+            if(res.data.code === 0) {
+              this.viewCount = res.data.data
+            }
+          })
+      },
+      getCommentCount(url) {
+        this.$axios.get(url)
+          .then(res => {
+            if(res.data.code === 0) {
+              this.commentCount = res.data.data
+            }
+          })
+      }
     },
     mounted() {
-      this.getData()
-      this.getFirstBread()
+      this.getData();
+      this.getFirstBread();
     },
     watch: {
       $route (to, from) {

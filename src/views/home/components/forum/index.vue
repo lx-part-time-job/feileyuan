@@ -12,7 +12,6 @@
     data() {
       return {
         titleImg: "/img/home/side/forum.png",
-        side_icon: '/img/home/icons/article.png',
         isActivity: false,
         index: 'forum',
         url: '/activity/getHotActivityList'

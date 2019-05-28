@@ -13,9 +13,8 @@
     data() {
       return {
         titleImg: "/img/home/side/hot.png",
-        side_icon: '/img/home/icons/fire.png',
         isActivity: false,
-        index:'hot',
+        index: 'hot',
         url: '/information/getHotInformationActivityList'
       }
     }

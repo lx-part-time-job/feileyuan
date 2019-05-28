@@ -12,7 +12,6 @@
     data() {
       return {
         titleImg: "/img/home/side/activity.png",
-        side_icon: '/img/home/icons/football.png',
         isActivity: true,
         index: 'activity',
         url: '/information/getHotInformationActivityList'

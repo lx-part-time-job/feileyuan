@@ -1,6 +1,6 @@
 <template>
   <div class="forum">
-    <side-list :titleImg="titleImg" :sideHeaderList="sideHeaderList" :sideFooterList="sideFooterList" :isActivity="isActivity" :side_icon="side_icon" />
+    <side-list :titleImg="titleImg" :url="url" :isActivity="isActivity" :side_icon="side_icon" />
   </div>
 </template>
 
@@ -13,27 +13,9 @@
       return {
         titleImg: "/img/home/side/forum.png",
         side_icon: '/img/home/icons/article.png',
-        sideHeaderList: [],
-        sideFooterList: [],
-        isActivity: false
-      }
-    },
-    mounted() {
-      this.getForumList()
-    },
-    methods: {
-      getForumList(page) {
-        this.$axios.get('/activity/getHotActivityList', {
-          params: {
-            page: page || 1
-          }
-        }).then(res => {
-          if (res.data.code === 0) {
-            let dataList = [...res.data.data];
-            this.sideHeaderList = dataList.splice(0, 1);
-            this.sideFooterList = dataList.splice(0, 6);
-          }
-        })
+        isActivity: false,
+        index: 'forum',
+        url: '/activity/getHotActivityList'
       }
     }
   }

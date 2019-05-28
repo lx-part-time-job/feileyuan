@@ -25,7 +25,7 @@
       <div class="article-content" v-html="articleInfo.content"></div>
 
       <!-- 分页器 -->
-      <div class="pagination ov">
+      <!-- <div class="pagination ov">
         <span class="pagination-btn pagination-prev"></span>
         <ul class="pagination-btns ov">
           <li class="pagination-btn fl">1</li>
@@ -34,7 +34,7 @@
           <li class="pagination-btn fl">4</li>
         </ul>
         <span class="pagination-btn pagination-next"></span>
-      </div>
+      </div> -->
     </div>
 
     <!-- 相关 -->
@@ -123,7 +123,7 @@
         </div>
       </div>
 
-      <div class="ov">
+      <!-- <div class="ov">
         <div class="list-pagination fr">
           <div class="pagination ov fl">
             <span class="pagination-btn pagination-prev"></span>
@@ -140,7 +140,7 @@
             <input type="text" placeholder="1"> 页
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

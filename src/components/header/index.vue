@@ -89,6 +89,8 @@
 </template>
 
 <script>
+	import localStore from '../../assets/js/cookies'
+	
 	export default {
 		name: "headerWrapper",
 		data(){
@@ -126,6 +128,10 @@
 					console.log(e);
 				}
 			}
+		},
+		mounted(){
+			let userInfo =  this.$getCookie('uInfo')
+			userInfo? this.islogin =true:this.islogin=false;
 		}
 	}
 </script>

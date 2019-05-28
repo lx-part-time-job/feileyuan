@@ -1,6 +1,6 @@
 <template>
   <div class="activity">
-    <side-list :titleImg="titleImg" :url="url" :isActivity="isActivity" :side_icon="side_icon" :index='index' />
+    <side-list :titleImg="titleImg" :url="url" :isActivity="isActivity" :index='index' />
   </div>
 </template>
 

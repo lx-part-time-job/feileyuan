@@ -15,7 +15,7 @@
     <div class="article">
       <h3 class="article-title tc">{{articleInfo.title}}</h3>
       <div class="article-wrapper tc">
-        <span class="article-info icon-news">新闻资讯</span>
+        <span class="article-info icon-news">{{articleType}}</span>
         <span class="article-info icon-author">{{articleInfo.authorname}} 发表于 {{$formatDate(articleInfo.publishtime, "yyyy-MM-dd hh:mm:ss")}}</span>
         <span class="article-info icon-watch">阅读数 {{viewCount}}</span>
         <span class="article-info icon-comment">评论数 {{commentCount}}</span>
@@ -86,7 +86,7 @@
           <div class="list-agrees ov">
             <div class="fr ov">
               <div class="list-agree-btn fl">
-                <img src="../../assets/images/common/icon-agree.png" alt="">
+                <img src="../../assets/images/common/icon-agree.png" @click="agreeComment(item)" alt="">
                 <span>({{item.upcount}})</span>
               </div>
               <div class="list-reply-btn fl">回复</div>
@@ -94,7 +94,7 @@
           </div>
         </div>
         <div v-if="item.replyList">
-          <div class="list-child list" v-for="comment in item.replyList">
+          <div class="list-child" v-for="comment in item.replyList" :class="{'list-child-all': showAll}">
             <div>
               <div class="list-content ov">
                 <img class="fl list-img" src="../../assets/images/common/user-head-img.png" alt="">
@@ -118,7 +118,7 @@
             </div>
           </div>
         </div>
-        <div v-if="item.replyList.length > 1" class="list-check-more cursor">
+        <div v-if="item.replyList.length > 1 && !showAll" class="list-check-more cursor" @click="showAll = true">
           查看更多回复
         </div>
       </div>
@@ -158,7 +158,9 @@
         firstBread: "",
         comment: "",
         viewCount: "",
-        commentCount: ""
+        commentCount: "",
+        showAll: false,
+        articleType: "新闻资讯"
       }
     },
     methods: {
@@ -204,13 +206,15 @@
           && (recommendUrl = '/recommend/getRecommendInformation/' + id)
           && (commentUrl = '/information/getInfoList/')
           && (viewCountUrl = '/information/update/count/' + id)
-          && (commentCountUrl = '/information/getCommentCount/' + id);
+          && (commentCountUrl = '/information/getCommentCount/' + id)
+          && (this.articleType = '新闻资讯');
         classify === 'activity'
           && (infoUrl = '/activity/activity/' + id)
           && (recommendUrl = '/recommend/getRecommendActivity/' + id)
           && (commentUrl = '/information/getActivityList/')
           && (viewCountUrl = '/activity/update/count/' +id)
-          && (commentCountUrl = '/activity/getCommentCount/' + id);
+          && (commentCountUrl = '/activity/getCommentCount/' + id)
+          && (this.articleType = '活动');
         this.getArticleInfo(infoUrl, id);
         this.getRecommendList(recommendUrl, id);
         this.getCommentList(commentUrl, id);
@@ -291,6 +295,21 @@
               this.commentCount = res.data.data
             }
           })
+      },
+      agreeComment(item) {
+        let classify = this.$route.path.split('/')[1], outid, type;
+        classify === 'news' && (outid = item.infoid) && (type = 1);
+        classify === 'activity' && (outid = item.actid) && (type = 3);
+        this.$axios.post("/comment/addUp", {
+          type, outid,
+          id: item.id,
+          isup: true
+        }).then(res => {
+          console.log(res)
+        })
+      },
+      getMore() {
+
       }
     },
     mounted() {
@@ -460,6 +479,8 @@
 
   .list {
     margin-bottom: 20px;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 5px;
   }
 
   .list-img {
@@ -495,7 +516,22 @@
   }
 
   .list-child {
-    padding-left: 100px;
+    margin: 0 0 20px 100px;
+    padding: 0 0 5px 5px;
+    border-bottom: 1px solid #efefef;
+    display: none;
+  }
+
+  .list-child:nth-of-type(1) {
+    display: block;
+  }
+
+  .list-child:last-of-type {
+    border-bottom: 0;
+  }
+
+  .list-child-all {
+    display: block;
   }
 
   .list-child .list-img {
@@ -509,6 +545,7 @@
 
   .list-check-more {
     padding-left: 100px;
+    padding-bottom: 20px;
     font-size: 14px;
     color: #000;
   }

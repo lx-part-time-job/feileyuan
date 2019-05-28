@@ -1,6 +1,6 @@
 <template>
   <div class="forum">
-    <side-list :titleImg="titleImg" :url="url" :isActivity="isActivity" :side_icon="side_icon" />
+    <side-list :titleImg="titleImg" :url="url" :isActivity="isActivity" />
   </div>
 </template>
 

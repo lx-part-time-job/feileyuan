@@ -61,9 +61,7 @@ export default {
     name: "login",
     data() {
         return {
-            // loginName: "18616876125",
             loginName:'',
-            // passWord: "123456"
             passWord:'',
             checked:false
         }

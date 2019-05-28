@@ -64,7 +64,7 @@
 				<el-input class="fl" prefix-icon="el-icon-search" size="small" placeholder="请输入您要搜索的关键字" v-model="keywords"></el-input>
 				
 			</div>
-			<div class="user fr ov">
+			<div class="user fr ov" v-if="islogin">
 				<router-link to="" class="ov">
 					<img src="../../assets/images/home/nav/head_img.png" class="fl" alt="">
 					<div class="fl">
@@ -80,6 +80,10 @@
 				<router-link to=""><img src="../../assets/images/home/nav/setting.png" alt="" class="icon"></router-link>
 				<img @click='logout' src="../../assets/images/home/nav/quit.png" alt="" class="icon cursor">
 			</div>
+			<div class="user fr ov" v-else>
+				<router-link to='/login' tag="el-button">登录</router-link>
+				<router-link to="/register" tag="el-button">注册</router-link>
+			</div>
 		</div>
 	</div>
 </template>
@@ -89,7 +93,8 @@
 		name: "headerWrapper",
 		data(){
 			return{
-				keywords:''
+				keywords:'',
+				islogin:false
 			}
 		},
 		methods:{

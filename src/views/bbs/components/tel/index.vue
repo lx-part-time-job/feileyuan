@@ -70,6 +70,10 @@ export default {
       text-align: center;
       line-height: 30px;
       margin-right: 20px;
+      cursor: pointer;
+      &:hover{
+        opacity: 0.8;
+      }
       &:nth-child(2n) {
         margin-right: 0;
       }

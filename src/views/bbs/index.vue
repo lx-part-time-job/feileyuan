@@ -14,6 +14,11 @@
             <tel/>
           </div>
         </div>
+        <!-- bottom 板块 -->
+        <div class="section-container">
+          <bbsSection/>
+        </div>
+        <!--  -->
       </div>
     </div>
   </div>
@@ -24,9 +29,10 @@ import bbsnav from "./components/bbsnav";
 import swiper from "./components/swiper/index";
 import subject from "./components/subject/index";
 import tel from "./components/tel/index";
+import bbsSection from "./components/bbsSection/index";
 export default {
   name: "bbs",
-  components: { breadCrumb, bbsnav, swiper, subject,tel },
+  components: { breadCrumb, bbsnav, swiper, subject, tel, bbsSection },
   data() {
     return {};
   }
@@ -37,7 +43,8 @@ export default {
 .container {
   padding-top: 40px;
 }
-.container-top {
+.section-container {
+  margin-top: 31px;
 }
 </style>
 

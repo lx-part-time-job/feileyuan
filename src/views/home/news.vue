@@ -61,7 +61,6 @@
     },
     watch: {
       $route (to, from) {
-        console.log(to.query)
         if(this.index === 'hot') {
           this.getHotArticleList(to.query.page);
         } else {

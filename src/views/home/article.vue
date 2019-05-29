@@ -35,6 +35,12 @@
       </div> -->
     </div>
 
+    <div class="tag-wrapper">
+      <ul>
+        <li v-for="(item, index) in tagList" @click="toTagList(item.tagId)">{{item.tagValue}}</li>
+      </ul>
+    </div>
+
     <!-- 相关 -->
     <div class="related part">
       <div class="related-links-list fl">
@@ -122,7 +128,7 @@
         <div class="reply-textarea" v-if="idx === index">
           <textarea v-model="replyContent"></textarea>
           <el-button class="fr submit-reply" type="info" size="small" @click="cancelReply">取消</el-button>
-          <el-button class="fr submit-reply" type="primary" size="small" @click="submitReply">提交</el-button>
+          <el-button class="fr submit-reply" type="primary" size="small" @click="submitReply(item)">提交</el-button>
         </div>
       </div>
 
@@ -165,7 +171,8 @@
         showAll: false,
         articleType: "新闻资讯",
         idx: -1,
-        replyContent: ""
+        replyContent: "",
+        tagList: []
       }
     },
     methods: {
@@ -177,6 +184,11 @@
           .then(res => {
             if (res.data.code === 0) {
               this.articleInfo = res.data.data
+              let arr = this.articleInfo.tagValues.split(',');
+              arr.map(item => {
+                let tag = item.split('|');
+                this.tagList.push({tagId: tag[0], tagValue: tag[1]})
+              });
             }
           })
       },
@@ -306,10 +318,13 @@
         let classify = this.$route.path.split('/')[1], outid, type;
         classify === 'news' && (outid = item.infoid) && (type = 3);
         classify === 'activity' && (outid = item.actid) && (type = 1);
+        let cookie = this.$getCookie('uInfo');
+        let username = cookie ? JSON.parse(cookie).loginName : '';
         this.$axios.post("/comment/addUp", {
           type, outid,
           id: item.id,
-          isup: true
+          isup: true,
+          UN: parseInt(username)
         }).then(res => {
           console.log(res)
         })
@@ -326,7 +341,7 @@
           outid = Number(this.$route.params.articleID),
           classify = this.$route.path.split('/')[1],
           comment = this.replyContent,
-          touserid = item.touserid,
+          touserid = item.userid,
           Commentid = item.id;
         switch (classify) {
           case 'news':
@@ -342,6 +357,9 @@
             console.log(res.data.data)
           }
         })
+      },
+      toTagList(id) {
+        window.open(location.origin + '/#/tagList/' + id);
       }
     },
     mounted() {
@@ -424,6 +442,25 @@
 
     .icon-comment {
       background-image: url(../../assets/images/common/icon-comment.png);
+    }
+  }
+
+  .tag-wrapper {
+    padding: 30px 50px 15px;
+    background: #fff;
+    margin: 20px 0;
+    border-radius: 5px;
+    ul {
+      overflow: hidden;
+      li {
+        padding: 10px 20px;
+        background: rgb(196, 196, 196);
+        color: #fff;
+        float: left;
+        border-radius: 15px;
+        cursor: pointer;
+        margin: 0 15px 15px 0;
+      }
     }
   }
 

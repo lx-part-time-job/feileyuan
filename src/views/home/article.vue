@@ -3,10 +3,8 @@
     <!-- bread -->
     <div class="bread">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item>
-          {{firstBread}}
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>{{firstBread}}</el-breadcrumb-item>
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <el-breadcrumb-item>{{secondBread}}</el-breadcrumb-item>
         <el-breadcrumb-item class="bread-title">{{articleInfo.title}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -89,30 +87,30 @@
                 <img src="../../assets/images/common/icon-agree.png" @click="agreeComment(item)" alt="">
                 <span>({{item.upcount}})</span>
               </div>
-              <div class="list-reply-btn fl">回复</div>
+              <div class="list-reply-btn fl" @click="reply(index)">回复</div>
             </div>
           </div>
         </div>
         <div v-if="item.replyList">
-          <div class="list-child" v-for="comment in item.replyList" :class="{'list-child-all': showAll}">
+          <div class="list-child" v-for="replyItem in item.replyList" :class="{'list-child-all': showAll}">
             <div>
               <div class="list-content ov">
                 <img class="fl list-img" src="../../assets/images/common/user-head-img.png" alt="">
                 <div class="fl">
                   <div class="ov">
-                    <span class="fl list-name">{{comment.userid}}</span>
-                    <span class="fl list-date">发表于 {{$formatDate(comment.utime, "yyyy-MM-dd hh:mm")}}</span>
+                    <span class="fl list-name">{{replyItem.userid}}</span>
+                    <span class="fl list-date">发表于 {{$formatDate(replyItem.utime, "yyyy-MM-dd hh:mm")}}</span>
                   </div>
-                  <div class="list-detail">{{comment.comment}}</div>
+                  <div class="list-detail">{{replyItem.comment}}</div>
                 </div>
               </div>
               <div class="list-agrees ov">
                 <div class="fr ov">
                   <div class="list-agree-btn fl">
                     <img src="../../assets/images/common/icon-agree.png" alt="">
-                    <span>({{comment.upcount}})</span>
+                    <span>({{replyItem.upcount}})</span>
                   </div>
-                  <div class="list-reply-btn fl">回复</div>
+                  <div class="list-reply-btn fl" @click="reply(index)">回复</div>
                 </div>
               </div>
             </div>
@@ -120,6 +118,11 @@
         </div>
         <div v-if="item.replyList.length > 1 && !showAll" class="list-check-more cursor" @click="showAll = true">
           查看更多回复
+        </div>
+        <div class="reply-textarea" v-if="idx === index">
+          <textarea v-model="replyContent"></textarea>
+          <el-button class="fr submit-reply" type="info" size="small" @click="cancelReply">取消</el-button>
+          <el-button class="fr submit-reply" type="primary" size="small" @click="submitReply">提交</el-button>
         </div>
       </div>
 
@@ -155,12 +158,14 @@
         commentList: [],
         recommendLeftList: [],
         recommendRightList: [],
-        firstBread: "",
+        secondBread: "",
         comment: "",
         viewCount: "",
         commentCount: "",
         showAll: false,
-        articleType: "新闻资讯"
+        articleType: "新闻资讯",
+        idx: -1,
+        replyContent: ""
       }
     },
     methods: {
@@ -222,14 +227,14 @@
         this.getCommentCount(commentCountUrl);
         this.goTop();
       },
-      getFirstBread() {
+      getSecondBread() {
         let nav = this.$route.path.split('/')[1];
         switch (nav) {
           case "news":
-            this.firstBread = "资讯";
+            this.secondBread = "资讯";
             break;
           default:
-            this.firstBread = "活动";
+            this.secondBread = "活动";
         }
       },
       checkLoginState() {
@@ -299,8 +304,8 @@
       },
       agreeComment(item) {
         let classify = this.$route.path.split('/')[1], outid, type;
-        classify === 'news' && (outid = item.infoid) && (type = 1);
-        classify === 'activity' && (outid = item.actid) && (type = 3);
+        classify === 'news' && (outid = item.infoid) && (type = 3);
+        classify === 'activity' && (outid = item.actid) && (type = 1);
         this.$axios.post("/comment/addUp", {
           type, outid,
           id: item.id,
@@ -309,13 +314,39 @@
           console.log(res)
         })
       },
-      getMore() {
-
+      reply(index){
+        this.idx = index;
+      },
+      cancelReply() {
+        this.idx = -1;
+        this.replyContent = "";
+      },
+      submitReply(item) {
+        let type,
+          outid = Number(this.$route.params.articleID),
+          classify = this.$route.path.split('/')[1],
+          comment = this.replyContent,
+          touserid = item.touserid,
+          Commentid = item.id;
+        switch (classify) {
+          case 'news':
+            type = 4;
+            break;
+          default:
+            type = 2;
+        }
+        this.$axios.post('/comment/getInfoList/', {
+          type, outid, comment, touserid, Commentid
+        }).then(res => {
+          if(res.data.code === 0) {
+            console.log(res.data.data)
+          }
+        })
       }
     },
     mounted() {
       this.getData();
-      this.getFirstBread();
+      this.getSecondBread();
     },
     watch: {
       $route (to, from) {
@@ -482,6 +513,22 @@
     margin-bottom: 20px;
     border-bottom: 1px solid #efefef;
     padding-bottom: 5px;
+    .reply-textarea {
+      margin: 20px 20px 20px 100px;
+      overflow: hidden;
+      textarea {
+        width: 100%;
+        border: 1px solid #efefef;
+        font-size: 14px;
+        color: #000;
+        height: 100px;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+      .submit-reply {
+        margin: 10px 0 0 10px;
+      }
+    }
   }
 
   .list-img {

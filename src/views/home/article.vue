@@ -244,17 +244,18 @@
           outid = Number(this.$route.params.articleID),
           classify = this.$route.path.split('/')[1],
           comment = this.comment;
-        if(classify === 'news') {
-          type = 1
-        } else {
-          type = 3
+        switch (classify) {
+          case 'news':
+            type = 3;
+            break;
+          default:
+            type = 1;
         }
         this.$axios.post('/comment/getInfoList/', {
           type, outid, comment,
           touserid: null,
           Commentid: null
         }).then(res => {
-          console.log(res)
           if(res.data.code === 0) {
             console.log(res.data.data)
           }

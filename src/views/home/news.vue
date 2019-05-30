@@ -59,13 +59,13 @@
       this.getNewArticleList(this.$route.query.page);
     },
     watch: {
-      $route (to, from) {
-        if(this.index === 'hot') {
-          this.getHotArticleList(to.query.page);
+      async $route (to, from) {
+        if(to.query.index === 'hot') {
+          await this.getHotArticleList(to.query.page);
         } else {
-          this.getNewArticleList(to.query.page);
+          await this.getNewArticleList(to.query.page);
         }
-        this.goTop();
+        await this.goTop();
       }
     }
   }

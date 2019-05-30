@@ -114,7 +114,9 @@ export default {
                             console.log(e);
                         }
                     }
-                    window.location.replace("/");
+                    // window.location.replace("/");
+                    /* 从哪进回哪里 */
+                     that.$router.go(-1);
                 } else {
                     this.$message.error(res.data.msg)
                 }

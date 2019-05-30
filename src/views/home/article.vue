@@ -177,7 +177,8 @@
     },
     methods: {
       toRelatedArticle(id){
-        window.open(location.origin + '/#/' + this.$route.path.split('/')[1] + '/' + id)
+        // window.open(location.origin + '/#/' + this.$route.path.split('/')[1] + '/' + id)
+        window.open(location.origin + '/' + this.$route.path.split('/')[1] + '/' + id)
       },
       getArticleInfo(url) {
         this.$axios.get(url)
@@ -359,7 +360,8 @@
         })
       },
       toTagList(id) {
-        window.open(location.origin + '/#/tagList/' + id);
+        // window.open(location.origin + '/#/tagList/' + id);
+        window.open(location.origin + '/tagList/' + id);
       }
     },
     mounted() {

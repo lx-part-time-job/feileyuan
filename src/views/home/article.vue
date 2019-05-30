@@ -107,7 +107,7 @@
                     <span class="fl list-name">{{replyItem.userid}}</span>
                     <span class="fl list-date">发表于 {{$formatDate(replyItem.utime, "yyyy-MM-dd hh:mm")}}</span>
                   </div>
-                  <div class="list-detail">{{replyItem.comment}}</div>
+                  <div class="list-detail">{{replyItem.reply}}</div>
                 </div>
               </div>
               <div class="list-agrees ov">

@@ -73,7 +73,6 @@
 
 <style scoped>
   .topic {
-    padding-right: 30px;
     box-sizing: border-box;
     margin-top: 20px;
   }

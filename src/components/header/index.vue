@@ -51,7 +51,7 @@
 <template>
 	<div class="header">
 		<div class="inner ov">
-			<router-link class="logo-wrapper fl" to="/" tag="div">
+			<router-link class="logo-wrapper fl cursor" to="/" tag="div">
 				<img src="../../assets/images/home/nav/logo.png" alt>
 			</router-link>
 			

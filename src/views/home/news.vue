@@ -73,7 +73,6 @@
 
 <style scoped>
 .news {
-  padding-right: 30px;
   box-sizing: border-box;
   margin-top: 20px;
 }

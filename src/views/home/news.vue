@@ -51,7 +51,6 @@
       },
       changeTab(index) {
         this.changeQuery({index});
-        let page = this.$route.query.page;
         index === 'hot' && (this.articleList = this.hotArticleList);
         index === 'new' && (this.articleList = this.newArticleList);
       }

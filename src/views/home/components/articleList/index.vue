@@ -7,11 +7,11 @@
         <p class="abstract">{{item.synopsis}}</p>
         <div :class="isLeft ? 'meta' : 'meta right'">
           <div class="meta-item">
-            <img :src="news_icon" alt="">
+            <i class="iconfont">&#xe670;</i>
             <span>新闻资讯</span>
           </div>
           <div class="meta-item">
-            <img :src="clock_icon" alt="">
+            <i class="iconfont shijian">&#xe66d;</i>
             <span>{{dateDiff(item.publishtime)}}</span>
           </div>
         </div>
@@ -27,20 +27,20 @@
     name: "articleList",
     props: ["articleList", "contentWidth", "isLeft", "mb", "total", "type"],
     components: {Pagination},
-    data() {
-      return {
-        news_icon: '/img/home/icons/news.png',
-        clock_icon: '/img/home/icons/clock.png'
-      }
-    },
     methods: {
       dateDiff(time) {
         let t = Date.now() - time;
+        let years = Math.floor(t / (12 * 30 * 24 * 60 * 60 * 1000));
+        let months = Math.floor(t / (30 * 24 * 60 * 60 * 1000));
         let days = Math.floor(t / (24 * 60 * 60 * 1000));
         let hours = Math.floor(t / (60 * 60 * 1000));
         let minutes = Math.floor(t / (60 * 1000));
         let seconds = Math.floor(t / 1000);
-        if(days > 0) {
+        if(years > 0) {
+          return years + '年前'
+        } else if(months > 0) {
+          return months + '月前'
+        } else if(days > 0) {
           return days + '天前'
         } else if (hours > 0) {
           return hours + '小时前'
@@ -116,14 +116,20 @@
   .meta-item {
     float: left;
     margin-right: 30px;
+    font-size: 14px;
   }
 
   .meta-item:last-child {
     margin-right: 0;
   }
 
-  .meta-item img {
-    vertical-align: middle;
-    margin-right: 10px;
+  .meta-item i {
+     margin-right: 10px;
+     display: inline-block;
+     color: #238aff;
+   }
+
+  .meta-item i.shijian {
+    color: #7dc36d;
   }
 </style>

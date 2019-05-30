@@ -21,10 +21,10 @@
     },
     methods: {
       getTagArticleList(page) {
-        this.$axios.post('/information/getInfoListByProperty', {
-          id: Number(this.$route.params.tagId),
-          page: page || 1,
-          limit: 10
+        this.$axios.post('/information/getInfoListByProperty?id=' + Number(this.$route.params.tagId) + '&page=' + (page || 1) + '&limit=10', {}, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          }
         }).then(res => {
           if(res.data.code === 0) {
             this.articleList = [...res.data.data];
@@ -46,7 +46,7 @@
 </script>
 
 <style scoped>
-  .news {
+  .tag-list {
     padding-right: 30px;
     box-sizing: border-box;
     margin-top: 20px;

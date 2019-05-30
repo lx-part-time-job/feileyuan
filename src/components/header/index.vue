@@ -44,6 +44,9 @@
 	font-size: 12px;
 	line-height: 15px;
 }
+.el-button{
+	padding:8px 18px;
+}
 </style>
 <template>
 	<div class="header">

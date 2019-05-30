@@ -71,7 +71,7 @@
 				<router-link to="" class="ov">
 					<img src="../../assets/images/home/nav/head_img.png" class="fl" alt="">
 					<div class="fl">
-						<h4 class="username">这是用户名</h4>
+						<h4 class="username">{{username}}</h4>
 						<div class="userlevel">
 							<img src="../../assets/images/home/nav/level_8.png" alt="" class="inline">
 							<span class="inline">经验：2328</span>
@@ -99,7 +99,8 @@
 		data(){
 			return{
 				keywords:'',
-				islogin:false
+				islogin:false,
+				username:''
 			}
 		},
 		methods:{
@@ -135,6 +136,8 @@
 		mounted(){
 			let userInfo =  this.$getCookie('uInfo')
 			userInfo? this.islogin =true:this.islogin=false;
+			this.username = JSON.parse(userInfo).loginName
+			console.log(typeof (userInfo),userInfo.loginName)
 		}
 	}
 </script>

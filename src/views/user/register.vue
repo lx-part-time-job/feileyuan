@@ -56,7 +56,7 @@
                       <div>
                           <img class="email" src="/img/user/icon-email.png" alt="">
                       </div>
-                      <input v-model="emailCode" type="password" placeholder="输入邮箱验证码" />
+                      <input v-model="emailCode" type="text" placeholder="输入邮箱验证码" />
                   </div>
                 </div>
                 <div class="login-btn cursor" @click='register'>确认注册</div>
@@ -118,7 +118,7 @@ export default {
                 let that = this;
                 this.$axios.post('/users/register/mobile', {
                     userPhone: this.userPhone,
-                    passWord: this.passWord,
+                    passWord: this.$md5(this.passWord),
                     vCode: this.vCode,
                 }).then(res => {
                     if (res.data.code == 0) {
@@ -153,7 +153,7 @@ export default {
                 }
                 let data = {
                     userEmail: this.userEmail,
-                    passWord:this.passWord,
+                    passWord:this.$md5(this.passWord),
                     emailCode:this.emailCode
                 }
                 let that = this;

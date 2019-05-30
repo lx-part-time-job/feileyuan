@@ -8,14 +8,17 @@
                     <div>
                         <img src="/img/user/icon-phone.png" alt="">
                     </div>
-                    <input v-model="loginName" type="tel" id="loginName" placeholder="请输入的你的手机号码" />
+                    <input v-model="loginName" type="tel" id="loginName" placeholder="请输入的你的手机号或邮箱" />
                 </div>
                 <div class="phone">
                     <div>
                         <img src="/img/user/icon-lock.png" alt="">
                     </div>
-                    <input v-model="passWord" type="password" id="passWord" placeholder="6-20位字母与字母或符号组成" />
-                    <img class="eye" src="/img/user/icon-eye.png" alt="">
+                    <input v-model="passWord" :type="open ? 'text' : 'password'" id="passWord" placeholder="6-20位字母与字母或符号组成" />
+                    <div @click='open = !open' class="cursor">
+                        <span v-if='open' class="icon-yanjing1 iconfont eye"></span>
+                        <span v-else class="icon-yanjing iconfont eye"></span>
+                    </div>
                 </div>
                 <div class="rember">
                     <div>
@@ -28,7 +31,7 @@
                         <span class="cursor forget" @click='$router.push("/findPassword")'>忘记密码？</span>
                     </div>
                 </div>
-                <div class="login-btn" @click='login'>登录</div>
+                <div class="login-btn cursor" @click='login'>登录</div>
                 <div class="register">
                     还没有账号？点击<span class="cursor" @click='$router.push("/register")'>立即注册</span>
                 </div>
@@ -65,7 +68,21 @@ export default {
             loginName:'',
             // passWord: "123456"
             passWord:'',
-            checked:false
+            checked:true,
+            open:false,
+        }
+    },
+    mounted(){
+        try {
+            let users = JSON.parse(this.$getCookie('users'));
+            if(users && users.loginName){
+                this.loginName = users.loginName;
+                this.passWord = users.passWord;
+            }
+
+        } catch(e) {
+
+            console.log(e);
         }
     },
     methods: {
@@ -73,7 +90,7 @@ export default {
             let that = this;
             this.$axios.post('/users/login', {
                 loginName: this.loginName,
-                passWord: this.passWord
+                passWord: this.$md5(this.passWord)
             }).then(res => {
                 if (res.data.code == 0) {
                     // 登陆成功
@@ -82,6 +99,23 @@ export default {
                         loginName: that.loginName,
                     }
                     that.$setCookie("uInfo", JSON.stringify(userInfo));
+                    if(that.checked) {
+                        that.$delCookie("users");
+                        let users = {
+                            loginName:that.loginName,
+                            passWord:that.passWord
+                        }
+                        that.$setCookie("users", JSON.stringify(users));
+                    }else {
+                        try {
+                            let users = JSON.parse(that.$getCookie('users'));
+                            if(users){that.$delCookie("users");}
+
+                        } catch(e) {
+
+                            console.log(e);
+                        }
+                    }
                     window.location.replace("/");
                 } else {
                     this.$message.error(res.data.msg)
@@ -134,7 +168,7 @@ export default {
                 display: flex;
                 align-items: center;
                 margin-bottom: 20px;
-                >div{
+                >div:first-child{
                     border-right: 1px solid #fff;
                     img{
                         width: 17px;
@@ -153,7 +187,8 @@ export default {
                     font-size: 16px;
                 }
                 .eye{
-                    padding-left: 20px;
+                    /*padding-left: 20px;*/
+                    color: #fff;
                 }
             }
             .phone:last-child {

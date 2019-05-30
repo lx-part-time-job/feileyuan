@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import ElementUI from 'element-ui';
+import md5 from 'js-md5';
 
 import axios from './assets/js/http';
 import { formatDate } from './assets/js/formatDate';
@@ -23,6 +24,7 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$formatDate = formatDate;
 Vue.prototype.$IMG_URL = IMG_URL;
 Vue.prototype.$utils = utils;
+Vue.prototype.$md5 = md5;
 
 Vue.prototype.$setCookie = SetCookies;
 Vue.prototype.$getCookie = GetCookies;

@@ -260,3 +260,13 @@ textarea {
     height: 0;
     line-height: 0;
 }
+input[type="image"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+button[type="button"],
+button[type="image"],
+button[type="reset"],
+button[type="submit"]{
+    cursor: pointer;
+}

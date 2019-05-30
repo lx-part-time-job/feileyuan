@@ -17,6 +17,7 @@
 	background-position: right center;
 	padding-right: 30px;
 	margin-right: 30px;
+	margin-left: 10px;
 }
 
 .el-menu.el-menu--horizontal{
@@ -48,21 +49,48 @@
 	padding:8px 18px;
 }
 </style>
+<style lang="scss" >
+.header {
+	.default-nav{
+		.el-menu-item {
+			padding: 0;
+			margin: 0 23px;
+			position: relative;
+			font-size: 18px;
+			color:rgba(51,51,51,1);
+			&.is-active{
+				border-bottom: 0;
+				// font-weight: bold;
+				&::after{
+					display: block;
+					content: "";
+					position: absolute;
+					width: 100%;
+					height:4px;
+					background:rgba(0,119,255,1);
+					bottom: -20px;
+				}
+			}
+		}
+	}
+
+}
+</style>
 <template>
 	<div class="header">
 		<div class="inner ov">
 			<router-link class="logo-wrapper fl cursor" to="/" tag="div">
 				<img src="../../assets/images/home/nav/logo.png" alt>
 			</router-link>
-			
-			<el-menu :default-active="$route.path" :router=true class="fl" mode="horizontal">
-				<el-menu-item index="/">首页</el-menu-item>
-				<el-menu-item index="/news">资讯</el-menu-item>
-				<el-menu-item index="/bbs">论坛</el-menu-item>
-				<el-menu-item index="/topic">专题</el-menu-item>
-				<el-menu-item index="/activity">活动</el-menu-item>
-			</el-menu>
-
+			<div class="default-nav fl cb">
+				<el-menu :default-active="$route.path" :router=true class="fl" mode="horizontal">
+					<el-menu-item index="/">首页</el-menu-item>
+					<el-menu-item index="/news">资讯</el-menu-item>
+					<el-menu-item index="/bbs">论坛</el-menu-item>
+					<el-menu-item index="/topic">专题</el-menu-item>
+					<el-menu-item index="/activity">活动</el-menu-item>
+				</el-menu>
+			</div>
 			<div class="search fl ov">
 				<el-input class="fl" prefix-icon="el-icon-search" size="small" placeholder="请输入您要搜索的关键字" v-model="keywords"></el-input>
 				

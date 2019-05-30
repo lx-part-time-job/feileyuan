@@ -114,12 +114,16 @@ export default {
                             console.log(e);
                         }
                     }
-                    window.location.replace("/");
+                    // 检查是否有未登录跳转
+                    let redirectUrl = decodeURIComponent(this.$route.query.redirect || '/')
+                    window.location.replace(redirectUrl);
+                    
                 } else {
                     this.$message.error(res.data.msg)
                 }
             })
         },
+
         rember(){
             this.checked = !this.checked;
         }

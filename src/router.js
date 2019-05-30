@@ -36,12 +36,17 @@ let limitLogin = (to, from, next) => { //登陆限制
   if (isLogin()) {
     next();
   } else {
-    next(`/login`);
+    next({
+      path:'/login',
+      query:{
+        redirect:to.fullPath
+      }
+    });
   }
 };
 
 const routes = new Router({
-  mode: 'hash',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [{
     path: '/',

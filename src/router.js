@@ -32,7 +32,7 @@ let limitNotLogin = (to, from, next) => {
     next();
   }
 };
-let limitLogin = (to, from, next) => { //登陆限制 
+let limitLogin = (to, from, next) => { //登陆限制
   if (isLogin()) {
     next();
   } else {
@@ -46,7 +46,7 @@ let limitLogin = (to, from, next) => { //登陆限制
 };
 
 const routes = new Router({
-  // mode: 'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [{
     path: '/',

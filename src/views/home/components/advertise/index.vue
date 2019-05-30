@@ -1,12 +1,12 @@
 <template>
   <div>
-  <ul class="advertise">
-    <li class="ad-item" v-for="item in adList">
-      <a class="img100" :href="item.topicurl || 'javascript:;'" target="__blank">
-        <img :src="$IMG_URL + item.imgurl" alt="">
-      </a>
-    </li>
-  </ul>
+    <ul class="advertise">
+      <li class="ad-item" v-for="item in adList">
+        <a class="img100" :href="item.topicurl || 'javascript:;'" target="__blank">
+          <img :src="$IMG_URL + item.imgurl" alt="">
+        </a>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -26,8 +26,7 @@
           }
         }).then(res => {
           if (res.data.code === 0) {
-            let topicList = [...res.data.data];
-            this.adList = topicList.splice(3, 2);
+            this.adList = [...res.data.data];
           }
         })
       }

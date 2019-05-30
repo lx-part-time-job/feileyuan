@@ -14,7 +14,6 @@ import '../public/css/reset.css';
 import './assets/icon/iconfont.css'
 
 const IMG_URL = 'http://150.109.50.3';
-// const IMG_URL = 'http://124.156.160.86/';
 
 Vue.config.productionTip = false;
 

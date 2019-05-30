@@ -21,7 +21,11 @@
     },
     methods: {
       getTagArticleList(page) {
-        this.$axios.post('/information/getInfoListByProperty?id=' + Number(this.$route.params.tagId) + '&page=' + (page || 1) + '&limit=10', {}, {
+        this.$axios.get('/information/getInfoListByProperty', {params: {
+            id: Number(this.$route.params.tagId),
+            page: page || 1,
+            limit: 10
+          }}, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
           }

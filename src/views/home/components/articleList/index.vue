@@ -54,8 +54,6 @@
         if(this.type === 'topic') {
           item.topicurl && window.open(item.topicurl);
         } else {
-        //   window.open(location.origin + '/#/' + this.type + '/' + item.id)
-        /* history */
           window.open(location.origin+ '/' + this.type + '/' + item.id)
         }
       }
@@ -69,6 +67,7 @@
     box-sizing: border-box;
     background: #fff;
     box-shadow: 0.174px 0.985px 5px 0px rgba(0, 0, 0, 0.1);
+    min-height: 350px;
   }
 
   .item {

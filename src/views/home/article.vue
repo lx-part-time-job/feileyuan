@@ -67,7 +67,7 @@
         <!-- 未登录时 -->
         <div v-if="!checkLoginState()" class="comment-login ov">
           <span class="fl">期待你的神评</span>
-          <router-link class="fl cursor" to="/login">请先登录</router-link>
+          <router-link class="fl cursor" :to="'/login?redirect=' + $route.fullPath">请先登录</router-link>
         </div>
       </div>
       <input type="button" value="发表回复" class="comment-reply cursor" @click="publishReply">
@@ -89,8 +89,9 @@
           </div>
           <div class="list-agrees ov">
             <div class="fr ov">
-              <div class="list-agree-btn fl">
-                <img src="../../assets/images/common/icon-agree.png" @click="agreeComment(item)" alt="">
+              <div class="list-agree-btn fl" @click="agreeComment(item)">
+                <img v-if="!isup" src="../../assets/images/common/icon-agree.png" alt="">
+                <img v-else src="../../assets/images/common/icon-agreed.png" alt="">
                 <span>({{item.upcount}})</span>
               </div>
               <div class="list-reply-btn fl" @click="reply(index)">回复</div>
@@ -98,7 +99,7 @@
           </div>
         </div>
         <div v-if="item.replyList">
-          <div class="list-child" v-for="replyItem in item.replyList" :class="{'list-child-all': showAll}">
+          <div class="list-child" v-for="(replyItem, i) in item.replyList" :class="{'list-child-all': showAll}">
             <div>
               <div class="list-content ov">
                 <img class="fl list-img" src="../../assets/images/common/user-head-img.png" alt="">
@@ -112,8 +113,9 @@
               </div>
               <div class="list-agrees ov">
                 <div class="fr ov">
-                  <div class="list-agree-btn fl">
-                    <img src="../../assets/images/common/icon-agree.png" alt="">
+                  <div class="list-agree-btn fl" @click="agreeReply(replyItem)">
+                    <img v-if="!isup" src="../../assets/images/common/icon-agree.png" alt="">
+                    <img v-else src="../../assets/images/common/icon-agreed.png" alt="">
                     <span>({{replyItem.upcount}})</span>
                   </div>
                   <div class="list-reply-btn fl" @click="reply(index)">回复</div>
@@ -172,12 +174,12 @@
         articleType: "新闻资讯",
         idx: -1,
         replyContent: "",
-        tagList: []
+        tagList: [],
+        isup: false
       }
     },
     methods: {
       toRelatedArticle(id){
-        // window.open(location.origin + '/#/' + this.$route.path.split('/')[1] + '/' + id)
         window.open(location.origin + '/' + this.$route.path.split('/')[1] + '/' + id)
       },
       getArticleInfo(url) {
@@ -200,7 +202,7 @@
               var dw = this.uniqeByKeys(res.data.data,['id']);
               this.recommendList = dw;
               this.recommendRightList = this.recommendList.splice(0, 2);
-              this.recommendLeftList = this.recommendList.splice(0, 5);
+              this.recommendLeftList = this.recommendList.splice(0, 4);
             }
           })
       },
@@ -215,30 +217,25 @@
           }
         })
       },
-      getData() {
-        let id = this.$route.params.articleID,
-          classify = this.$route.path.split('/')[1],
-          infoUrl, recommendUrl, commentUrl, viewCountUrl, commentCountUrl;
+      getData(id, classify) {
+        let recommendUrl, commentUrl, viewCountUrl, commentCountUrl;
         classify === 'news'
-          && (infoUrl = '/information/' + id)
           && (recommendUrl = '/recommend/getRecommendInformation/' + id)
           && (commentUrl = '/information/getInfoList/')
           && (viewCountUrl = '/information/update/count/' + id)
           && (commentCountUrl = '/information/getCommentCount/' + id)
           && (this.articleType = '新闻资讯');
         classify === 'activity'
-          && (infoUrl = '/activity/activity/' + id)
           && (recommendUrl = '/recommend/getRecommendActivity/' + id)
           && (commentUrl = '/information/getActivityList/')
           && (viewCountUrl = '/activity/update/count/' +id)
           && (commentCountUrl = '/activity/getCommentCount/' + id)
           && (this.articleType = '活动');
-        this.getArticleInfo(infoUrl, id);
         this.getRecommendList(recommendUrl, id);
         this.getCommentList(commentUrl, id);
         this.updateViewCount(viewCountUrl);
         this.getCommentCount(commentCountUrl);
-        this.goTop();
+        // this.goTop();
       },
       getSecondBread() {
         let nav = this.$route.path.split('/')[1];
@@ -275,7 +272,9 @@
           Commentid: null
         }).then(res => {
           if(res.data.code === 0) {
-            console.log(res.data.data)
+            this.getData(this.$route.params.articleID, this.$route.path.split('/')[1]);
+            this.comment = "";
+
           }
         })
       },
@@ -327,7 +326,23 @@
           isup: true,
           UN: parseInt(username)
         }).then(res => {
-          console.log(res)
+
+        })
+      },
+      agreeReply(replyItem) {
+        let classify = this.$route.path.split('/')[1], outid, type;
+        classify === 'news' && (outid = replyItem.infoid) && (type = 4);
+        classify === 'activity' && (outid = replyItem.actid) && (type = 2);
+        let cookie = this.$getCookie('uInfo');
+        let username = cookie ? JSON.parse(cookie).loginName : '';
+        this.$axios.post("/comment/addUp", {
+          type, outid,
+          id: item.id,
+          isup: true,
+          UN: parseInt(username),
+          commentid: replyItem.commentid
+        }).then(res => {
+
         })
       },
       reply(index){
@@ -355,22 +370,34 @@
           type, outid, comment, touserid, Commentid
         }).then(res => {
           if(res.data.code === 0) {
-            console.log(res.data.data)
+            this.getData(this.$route.params.articleID, this.$route.path.split('/')[1]);
+            this.replyContent = "";
+            this.idx = -1;
           }
         })
       },
       toTagList(id) {
-        // window.open(location.origin + '/#/tagList/' + id);
         window.open(location.origin + '/tagList/' + id);
       }
     },
     mounted() {
-      this.getData();
+      let id = this.$route.params.articleID,
+        classify = this.$route.path.split('/')[1],
+        infoUrl;
+      classify === 'news' && (infoUrl = '/information/' + id);
+      classify === 'activity' && (infoUrl = '/activity/activity/' + id);
+      this.getArticleInfo(infoUrl, id);
+      this.getData(id, classify);
       this.getSecondBread();
     },
     watch: {
       $route (to, from) {
-        to.params.articleID && this.getData()
+        let id = this.$route.params.articleID,
+          classify = this.$route.path.split('/')[1],
+          infoUrl;
+        classify === 'news' && (infoUrl = '/information/' + id);
+        classify === 'activity' && (infoUrl = '/activity/activity/' + id);
+        to.params.articleID &&  this.getArticleInfo(infoUrl, id) && this.getData(id, classify);;
       }
     }
   }

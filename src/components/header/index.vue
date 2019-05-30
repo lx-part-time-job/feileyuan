@@ -134,10 +134,12 @@
 			}
 		},
 		mounted(){
-			let userInfo =  this.$getCookie('uInfo')
+			let userInfo = this.$getCookie('uInfo')
 			userInfo? this.islogin =true:this.islogin=false;
-			this.username = JSON.parse(userInfo).loginName
-			console.log(typeof (userInfo),userInfo.loginName)
+			if(userInfo){
+				this.username = JSON.parse(userInfo).loginName
+				console.log(typeof (userInfo),userInfo.loginName)
+			}
 		}
 	}
 </script>

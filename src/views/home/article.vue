@@ -70,7 +70,7 @@
           <router-link class="fl cursor" to="/login">请先登录</router-link>
         </div>
       </div>
-      <input type="button" value="发表回复" class="comment-reply" @click="publishReply">
+      <input type="button" value="发表回复" class="comment-reply cursor" @click="publishReply">
     </div>
 
     <!-- 评论列表 -->
@@ -376,7 +376,8 @@
 <style lang="scss">
   .bread {
     .el-breadcrumb {
-      font-size: 24px;
+      font-size: 16px;
+      font-weight: bolder;
 
       .bread-title span {
         color: #0077ff;

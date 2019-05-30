@@ -11,11 +11,12 @@ module.exports = {
         port: 8080,
         proxy: {
             '/api': {
-                target: 'http://124.156.160.86/',
+                // target: 'http://124.156.160.86/',
+                target: 'http://150.109.48.154',
                 changeOrigin: true,
                 secure: false,
                 headers: {
-                    Referer: 'http://124.156.160.86/'
+                    Referer: 'http://150.109.48.154'
                 },
                 pathRewrite: {
                     '^/api': '/api'

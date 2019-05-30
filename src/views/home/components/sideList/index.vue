@@ -48,8 +48,10 @@
         this.i = 0;
       },
       goArticle(id){
-        this.index === 'hot' && window.open(location.origin + '/#/news/' + id);
-        this.index === 'activity' && window.open(location.origin + '/#/activity/' + id);
+        // this.index === 'hot' && window.open(location.origin + '/#/news/' + id);
+        // this.index === 'activity' && window.open(location.origin + '/#/activity/' + id);
+        this.index === 'hot' && window.open(location.origin + '/news/' + id);
+        this.index === 'activity' && window.open(location.origin + '/activity/' + id);
       },
       getDataList(page) {
         this.$axios.get(this.url, {

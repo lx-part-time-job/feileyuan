@@ -2,28 +2,28 @@
   <div class="content container-fluid">
     <!-- bread -->
     <div class="bread">
-      <a class="bread-link" href="#">资讯</a>
-      <span class="bread-point">·</span>
-      <a class="bread-link" href="#">生活那点事</a>
-      <span class="bread-point">·</span>
-      <a class="bread-link base-color" href="#">个人杂谈</a>
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <el-breadcrumb-item>{{secondBread}}</el-breadcrumb-item>
+        <el-breadcrumb-item class="bread-title">{{articleInfo.title}}</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
 
     <!-- article -->
-    <div class="article part">
-      <h3 class="article-title">{{articleInfo.title}}</h3>
-      <div class="article-wrapper ov tc">
-        <span class="article-info icon-news">新闻资讯</span>
+    <div class="article">
+      <h3 class="article-title tc">{{articleInfo.title}}</h3>
+      <div class="article-wrapper tc">
+        <span class="article-info icon-news">{{articleType}}</span>
         <span class="article-info icon-author">{{articleInfo.authorname}} 发表于 {{$formatDate(articleInfo.publishtime, "yyyy-MM-dd hh:mm:ss")}}</span>
-        <span class="article-info icon-watch">阅读数 {{articleInfo.viewcount}}</span>
-        <span class="article-info icon-comment">评论数 {{articleInfo.commentcount}}</span>
+        <span class="article-info icon-watch">阅读数 {{viewCount}}</span>
+        <span class="article-info icon-comment">评论数 {{commentCount}}</span>
       </div>
 
       <!-- 用于填充资讯内容 -->
       <div class="article-content" v-html="articleInfo.content"></div>
 
       <!-- 分页器 -->
-      <div class="pagination ov">
+      <!-- <div class="pagination ov">
         <span class="pagination-btn pagination-prev"></span>
         <ul class="pagination-btns ov">
           <li class="pagination-btn fl">1</li>
@@ -32,34 +32,45 @@
           <li class="pagination-btn fl">4</li>
         </ul>
         <span class="pagination-btn pagination-next"></span>
-      </div>
+      </div> -->
+    </div>
+
+    <div class="tag-wrapper">
+      <ul>
+        <li v-for="(item, index) in tagList" @click="toTagList(item.tagId)">{{item.tagValue}}</li>
+      </ul>
     </div>
 
     <!-- 相关 -->
     <div class="related part">
-      <h4 class="part-title">相关阅读</h4>
-
-      <div class="related-links">
-        <a href="#" class="related-link ellipsis" v-for="item in recommendList">{{item.title}}</a>
+      <div class="related-links-list fl">
+        <h4 class="part-title">相关阅读</h4>
+        <a class="related-link textEllipsis cursor" @click="toRelatedArticle(item.id)" v-for="item in recommendLeftList">{{item.title}}</a>
+      </div>
+      <div class="related-links-img fl">
+          <a v-for="item in recommendRightList" @click="toRelatedArticle(item.id)" class="related-link textEllipsis tc cursor">
+            <img class="related-img" :src="$IMG_URL + item.imgurl" alt="">
+            <p class="textEllipsis">{{item.title}}</p>
+          </a>
       </div>
 
     </div>
 
     <!-- comment -->
     <div class="comment part">
-      <h4 class="part-title">评论（2019条）</h4>
+      <h4 class="part-title">评论（{{commentCount}}条）</h4>
 
       <div class="comment-box relative">
         <!-- 登录后，输入评论的容器 -->
-        <textarea class="comment-content" readonly></textarea>
+        <textarea class="comment-content" v-model="comment" :readonly="!checkLoginState()"></textarea>
 
         <!-- 未登录时 -->
-        <div class="comment-login ov">
+        <div v-if="!checkLoginState()" class="comment-login ov">
           <span class="fl">期待你的神评</span>
-          <a class="fl" href="#">请先登录</a>
+          <router-link class="fl cursor" to="/login">请先登录</router-link>
         </div>
       </div>
-      <input type="button" value="发表回复" class="comment-reply">
+      <input type="button" value="发表回复" class="comment-reply" @click="publishReply">
     </div>
 
     <!-- 评论列表 -->
@@ -79,44 +90,49 @@
           <div class="list-agrees ov">
             <div class="fr ov">
               <div class="list-agree-btn fl">
-                <img src="../../assets/images/common/icon-agree.png" alt="">
+                <img src="../../assets/images/common/icon-agree.png" @click="agreeComment(item)" alt="">
                 <span>({{item.upcount}})</span>
               </div>
-              <div class="list-reply-btn fl">回复</div>
+              <div class="list-reply-btn fl" @click="reply(index)">回复</div>
             </div>
           </div>
         </div>
         <div v-if="item.replyList">
-          <div class="list-child list" v-for="comment in item.replyList">
-          <div>
-            <div class="list-content ov">
-              <img class="fl list-img" src="../../assets/images/common/user-head-img.png" alt="">
-              <div class="fl">
-                <div class="ov">
-                  <span class="fl list-name">{{comment.userid}}</span>
-                  <span class="fl list-date">发表于 {{$formatDate(comment.utime, "yyyy-MM-dd hh:mm")}}</span>
+          <div class="list-child" v-for="replyItem in item.replyList" :class="{'list-child-all': showAll}">
+            <div>
+              <div class="list-content ov">
+                <img class="fl list-img" src="../../assets/images/common/user-head-img.png" alt="">
+                <div class="fl">
+                  <div class="ov">
+                    <span class="fl list-name">{{replyItem.userid}}</span>
+                    <span class="fl list-date">发表于 {{$formatDate(replyItem.utime, "yyyy-MM-dd hh:mm")}}</span>
+                  </div>
+                  <div class="list-detail">{{replyItem.comment}}</div>
                 </div>
-                <div class="list-detail">{{comment.comment}}</div>
               </div>
-            </div>
-            <div class="list-agrees ov">
-              <div class="fr ov">
-                <div class="list-agree-btn fl">
-                  <img src="../../assets/images/common/icon-agree.png" alt="">
-                  <span>({{comment.upcount}})</span>
+              <div class="list-agrees ov">
+                <div class="fr ov">
+                  <div class="list-agree-btn fl">
+                    <img src="../../assets/images/common/icon-agree.png" alt="">
+                    <span>({{replyItem.upcount}})</span>
+                  </div>
+                  <div class="list-reply-btn fl" @click="reply(index)">回复</div>
                 </div>
-                <div class="list-reply-btn fl">回复</div>
               </div>
             </div>
           </div>
         </div>
-        </div>
-        <div class="list-check-more">
+        <div v-if="item.replyList.length > 1 && !showAll" class="list-check-more cursor" @click="showAll = true">
           查看更多回复
+        </div>
+        <div class="reply-textarea" v-if="idx === index">
+          <textarea v-model="replyContent"></textarea>
+          <el-button class="fr submit-reply" type="info" size="small" @click="cancelReply">取消</el-button>
+          <el-button class="fr submit-reply" type="primary" size="small" @click="submitReply(item)">提交</el-button>
         </div>
       </div>
 
-      <div class="ov">
+      <!-- <div class="ov">
         <div class="list-pagination fr">
           <div class="pagination ov fl">
             <span class="pagination-btn pagination-prev"></span>
@@ -133,130 +149,350 @@
             <input type="text" placeholder="1"> 页
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script>
+  import backTop from '../../../mixin/back_top';
   export default {
+    mixins: [backTop],
     data() {
       return {
         articleInfo: {},
         recommendList: [],
-        commentList: []
+        commentList: [],
+        recommendLeftList: [],
+        recommendRightList: [],
+        secondBread: "",
+        comment: "",
+        viewCount: "",
+        commentCount: "",
+        showAll: false,
+        articleType: "新闻资讯",
+        idx: -1,
+        replyContent: "",
+        tagList: []
       }
     },
     methods: {
-      getArticleInfo(id) {
-        this.$axios.get('/information/' + id)
+      toRelatedArticle(id){
+        window.open(location.origin + '/#/' + this.$route.path.split('/')[1] + '/' + id)
+      },
+      getArticleInfo(url) {
+        this.$axios.get(url)
           .then(res => {
-            if(res.data.code === 0) {
+            if (res.data.code === 0) {
               this.articleInfo = res.data.data
+              let arr = this.articleInfo.tagValues.split(',');
+              arr.map(item => {
+                let tag = item.split('|');
+                this.tagList.push({tagId: tag[0], tagValue: tag[1]})
+              });
             }
           })
       },
-      getRecommendList( id) {
-        this.$axios.get('/recommend/getRecommendInformation/' + id)
+      getRecommendList(url) {
+        this.$axios.get(url)
           .then(res => {
-            if(res.data.code === 0) {
-              this.recommendList = res.data.data
+            if (res.data.code === 0) {
+              var dw = this.uniqeByKeys(res.data.data,['id']);
+              this.recommendList = dw;
+              this.recommendRightList = this.recommendList.splice(0, 2);
+              this.recommendLeftList = this.recommendList.splice(0, 5);
             }
           })
       },
-      getCommentList(id, page) {
-        this.$axios.post('/information/getInfoList/', {
+      getCommentList(url, id, page) {
+        this.$axios.post(url, {
+          actid: id,
           Infoid: id,
           page: page || 1
         }).then(res => {
+          if (res.data.code === 0) {
+            this.commentList = res.data.data
+          }
+        })
+      },
+      getData() {
+        let id = this.$route.params.articleID,
+          classify = this.$route.path.split('/')[1],
+          infoUrl, recommendUrl, commentUrl, viewCountUrl, commentCountUrl;
+        classify === 'news'
+          && (infoUrl = '/information/' + id)
+          && (recommendUrl = '/recommend/getRecommendInformation/' + id)
+          && (commentUrl = '/information/getInfoList/')
+          && (viewCountUrl = '/information/update/count/' + id)
+          && (commentCountUrl = '/information/getCommentCount/' + id)
+          && (this.articleType = '新闻资讯');
+        classify === 'activity'
+          && (infoUrl = '/activity/activity/' + id)
+          && (recommendUrl = '/recommend/getRecommendActivity/' + id)
+          && (commentUrl = '/information/getActivityList/')
+          && (viewCountUrl = '/activity/update/count/' +id)
+          && (commentCountUrl = '/activity/getCommentCount/' + id)
+          && (this.articleType = '活动');
+        this.getArticleInfo(infoUrl, id);
+        this.getRecommendList(recommendUrl, id);
+        this.getCommentList(commentUrl, id);
+        this.updateViewCount(viewCountUrl);
+        this.getCommentCount(commentCountUrl);
+        this.goTop();
+      },
+      getSecondBread() {
+        let nav = this.$route.path.split('/')[1];
+        switch (nav) {
+          case "news":
+            this.secondBread = "资讯";
+            break;
+          default:
+            this.secondBread = "活动";
+        }
+      },
+      checkLoginState() {
+        let cookie = this.$getCookie('uInfo');
+        let userInfo = JSON.parse(cookie);
+        if(userInfo && userInfo.token) {
+          return true
+        }
+      },
+      publishReply() {
+        let type,
+          outid = Number(this.$route.params.articleID),
+          classify = this.$route.path.split('/')[1],
+          comment = this.comment;
+        switch (classify) {
+          case 'news':
+            type = 3;
+            break;
+          default:
+            type = 1;
+        }
+        this.$axios.post('/comment/getInfoList/', {
+          type, outid, comment,
+          touserid: null,
+          Commentid: null
+        }).then(res => {
+          if(res.data.code === 0) {
+            console.log(res.data.data)
+          }
+        })
+      },
+      obj2key(obj, keys) {
+        var n = keys.length,
+                key = [];
+        while (n--) {
+          key.push(obj[keys[n]]);
+        }
+        return key.join('|');
+      },
+      uniqeByKeys(array, keys) {
+        var arr = [];
+        var hash = {};
+        for (var i = 0, j = array.length; i < j; i++) {
+          var k = this.obj2key(array[i], keys);
+          if (!(k in hash)) {
+            hash[k] = true;
+            arr.push(array[i]);
+          }
+        }
+        return arr;
+      },
+      updateViewCount(url) {
+        this.$axios.post(url)
+          .then(res => {
             if(res.data.code === 0) {
-              this.commentList = res.data.data
+              this.viewCount = res.data.data
             }
           })
+      },
+      getCommentCount(url) {
+        this.$axios.get(url)
+          .then(res => {
+            if(res.data.code === 0) {
+              this.commentCount = res.data.data
+            }
+          })
+      },
+      agreeComment(item) {
+        let classify = this.$route.path.split('/')[1], outid, type;
+        classify === 'news' && (outid = item.infoid) && (type = 3);
+        classify === 'activity' && (outid = item.actid) && (type = 1);
+        let cookie = this.$getCookie('uInfo');
+        let username = cookie ? JSON.parse(cookie).loginName : '';
+        this.$axios.post("/comment/addUp", {
+          type, outid,
+          id: item.id,
+          isup: true,
+          UN: parseInt(username)
+        }).then(res => {
+          console.log(res)
+        })
+      },
+      reply(index){
+        this.idx = index;
+      },
+      cancelReply() {
+        this.idx = -1;
+        this.replyContent = "";
+      },
+      submitReply(item) {
+        let type,
+          outid = Number(this.$route.params.articleID),
+          classify = this.$route.path.split('/')[1],
+          comment = this.replyContent,
+          touserid = item.userid,
+          Commentid = item.id;
+        switch (classify) {
+          case 'news':
+            type = 4;
+            break;
+          default:
+            type = 2;
+        }
+        this.$axios.post('/comment/getInfoList/', {
+          type, outid, comment, touserid, Commentid
+        }).then(res => {
+          if(res.data.code === 0) {
+            console.log(res.data.data)
+          }
+        })
+      },
+      toTagList(id) {
+        window.open(location.origin + '/#/tagList/' + id);
       }
     },
     mounted() {
-      let id = this.$route.params.articleID
-        // classify = this.$route.path.split('/')[1];
-      // classify === 'article'
-      this.getArticleInfo(id);
-      this.getRecommendList(id);
-      this.getCommentList(id)
+      this.getData();
+      this.getSecondBread();
+    },
+    watch: {
+      $route (to, from) {
+        to.params.articleID && this.getData()
+      }
     }
   }
 </script>
-<style scoped>
+<style lang="scss">
+  .bread {
+    .el-breadcrumb {
+      font-size: 24px;
+
+      .bread-title span {
+        color: #0077ff;
+      }
+
+      .bread-title span:hover {
+        color: #0077ff;
+      }
+    }
+  }
+</style>
+<style scoped lang="scss">
   /* 面包屑 */
 
   .bread {
-    margin: 30px 0;
-  }
-
-  .bread-point,
-  .bread-link {
-    vertical-align: middle;
-    display: inline-block;
-    font-size: 16px;
-    color: #666;
+    margin: 20px 0 10px;
+    color: rgb(102, 102, 102);
   }
 
   .article {
     padding: 50px 100px;
-    /* width: 1000px; */
+    background: #fff;
+
+    .article-title {
+      font-size: 24px;
+      color: #000;
+      line-height: 0.542;
+    }
+
+    .article-wrapper {
+      margin: 20px auto 35px;
+    }
+
+    .article-info {
+      font-size: 14px;
+      color: #999;
+      padding-left: 30px;
+      margin-right: 20px;
+      line-height: 1.286;
+    }
+
+    .icon-news,
+    .icon-author,
+    .icon-watch,
+    .icon-comment {
+      background-position: 5px center;
+      background-size: 15px;
+      background-repeat: no-repeat;
+    }
+
+    .icon-news {
+      background-image: url('../../assets/images/common/icon-news.png');
+    }
+
+    .icon-author {
+      background-image: url(../../assets/images/common/icon-author.png);
+    }
+
+    .icon-watch {
+      background-image: url(../../assets/images/common/icon-watch.png);
+      background-size: 20px;
+    }
+
+    .icon-comment {
+      background-image: url(../../assets/images/common/icon-comment.png);
+    }
   }
 
-  .article-title {
-    font-size: 24px;
-    color: #000;
-    text-align: center;
+  .tag-wrapper {
+    padding: 30px 50px 15px;
+    background: #fff;
+    margin: 20px 0;
+    border-radius: 5px;
+    ul {
+      overflow: hidden;
+      li {
+        padding: 10px 20px;
+        background: rgb(196, 196, 196);
+        color: #fff;
+        float: left;
+        border-radius: 15px;
+        cursor: pointer;
+        margin: 0 15px 15px 0;
+      }
+    }
   }
 
-  .article-wrapper {
-    margin: 20px auto 35px;
-  }
+  .related {
+    overflow: hidden;
+    margin-top: 20px;
+    .related-link {
+      font-size: 14px;
+      color: #000;
+      line-height: 1.5;
+    }
+    .related-links-list {
+      margin-right: 30px;
+      width: 400px;
+      .related-link {
+        width: 100%;
+        line-height: 2.143;
+      }
+    }
 
-  .article-info {
-    font-size: 14px;
-    color: #999;
-    padding-left: 30px;
-    margin-right: 20px;
-  }
 
-  .icon-news,
-  .icon-author,
-  .icon-watch,
-  .icon-comment {
-    background-position: 5px center;
-    background-size: 15px;
-    background-repeat: no-repeat;
-  }
-
-  .icon-news {
-    background-image: url('../../assets/images/common/icon-news.png');
-  }
-
-  .icon-author {
-    background-image: url(../../assets/images/common/icon-author.png);
-  }
-
-  .icon-watch {
-    background-image: url(../../assets/images/common/icon-watch.png);
-    background-size: 20px;
-  }
-
-  .icon-comment {
-    background-image: url(../../assets/images/common/icon-comment.png);
-  }
-
-  .article-content img {
-    max-width: 675px;
-    margin: 15px auto;
-  }
-
-  .related-link {
-    font-size: 14px;
-    color: #000;
-    line-height: 2.143;
-    width: 400px;
+    .related-links-img {
+      a {
+        float: left;
+        margin-right: 40px;
+        width: 240px;
+      }
+      img.related-img {
+        width: 240px;
+        height: 130px;
+      }
+    }
   }
 
   .comment-box {
@@ -272,6 +508,8 @@
 
   .comment-content {
     background-color: #f3f3f3;
+    padding: 15px;
+    box-sizing: border-box;
   }
 
   .comment-login {
@@ -292,7 +530,7 @@
     margin-right: 35px;
   }
 
-  .comment-login > a,
+  .comment-login a,
   .comment-reply {
     color: #fff;
     width: 145px;
@@ -310,6 +548,24 @@
 
   .list {
     margin-bottom: 20px;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 5px;
+    .reply-textarea {
+      margin: 20px 20px 20px 100px;
+      overflow: hidden;
+      textarea {
+        width: 100%;
+        border: 1px solid #efefef;
+        font-size: 14px;
+        color: #000;
+        height: 100px;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+      .submit-reply {
+        margin: 10px 0 0 10px;
+      }
+    }
   }
 
   .list-img {
@@ -328,7 +584,6 @@
 
   .list-detail {
     margin-top: 10px;
-    min-height: 45px;
     max-width: 975px;
   }
 
@@ -346,7 +601,22 @@
   }
 
   .list-child {
-    padding-left: 100px;
+    margin: 0 0 20px 100px;
+    padding: 0 0 5px 5px;
+    border-bottom: 1px solid #efefef;
+    display: none;
+  }
+
+  .list-child:nth-of-type(1) {
+    display: block;
+  }
+
+  .list-child:last-of-type {
+    border-bottom: 0;
+  }
+
+  .list-child-all {
+    display: block;
   }
 
   .list-child .list-img {
@@ -359,15 +629,16 @@
   }
 
   .list-check-more {
-    padding-left: 115px;
+    padding-left: 100px;
+    padding-bottom: 20px;
     font-size: 14px;
     color: #000;
   }
 
   .part {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     box-shadow: 0 1px 24px 0 #c3c3c3;
-    border-radius: 14px;
+    border-radius: 5px;
     background-color: #fff;
     padding: 25px 50px 20px;
   }
@@ -469,5 +740,13 @@
 
   .relative {
     position: relative;
+  }
+  .article-content{
+    font:17px/32px Microsoft Yahei;
+    color:#404040;
+    margin:32px 0 0;
+  }
+  .article-content p{
+    padding: 5px 0;
   }
 </style>

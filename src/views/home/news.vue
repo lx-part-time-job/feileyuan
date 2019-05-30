@@ -1,7 +1,7 @@
 <template>
   <div class="news">
     <list-tab :tabList="tabList" @changeTab="changeTab" />
-    <article-list :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" />
+    <article-list :total="total" :articleList="articleList" :contentWidth="830" :isLeft="false" :mb="10" type="news" />
   </div>
 </template>
 
@@ -61,7 +61,6 @@
     },
     watch: {
       $route (to, from) {
-        console.log(to.query)
         if(this.index === 'hot') {
           this.getHotArticleList(to.query.page);
         } else {

@@ -21,8 +21,10 @@ axios.interceptors.request.use(
         try {
             let cookie = GetCookies('uInfo');
             let token = cookie ? JSON.parse(cookie).token : '';
+            let username = cookie ? JSON.parse(cookie).loginName : '';
             if(token){
-                config.headers['token'] = token;
+              config.headers['TOKEN'] = token;
+              config.headers['UN'] = username;
             }
         } catch(e) {
             console.log(e);

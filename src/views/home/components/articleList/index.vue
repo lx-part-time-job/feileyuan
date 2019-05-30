@@ -54,7 +54,7 @@
         if(this.type === 'topic') {
           item.topicurl && window.open(item.topicurl);
         } else {
-          this.$router.push('/article/' + item.id)
+          window.open(location.origin + '/#/' + this.type + '/' + item.id)
         }
       }
     }

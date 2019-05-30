@@ -268,7 +268,7 @@
           default:
             type = 1;
         }
-        this.$axios.post('/comment/getInfoList/', {
+        this.$axios.post('/comment/addComment/', {
           type, outid, comment,
           touserid: null,
           Commentid: null
@@ -350,7 +350,7 @@
           default:
             type = 2;
         }
-        this.$axios.post('/comment/getInfoList/', {
+        this.$axios.post('/comment/addComment/', {
           type, outid, comment, touserid, Commentid
         }).then(res => {
           if(res.data.code === 0) {

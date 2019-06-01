@@ -95,6 +95,7 @@
                 <span>({{item.upcount}})</span>
               </div>
               <div class="list-reply-btn fl" @click="reply(index)">回复</div>
+              <div class="list-reply-btn fl" @click="removeReply(index)">删除</div>
             </div>
           </div>
         </div>
@@ -276,6 +277,32 @@
             this.comment = "";
 
           }
+        })
+      },
+      removeReply(index){
+        //删除评论  接口成功，但是获取数据后  返回数据没有减少
+        let type,
+        classify = this.$route.path.split('/')[1],
+        outid = Number(this.$route.params.articleID),
+        id=this.commentList[index].id;
+        switch (classify) {
+          case 'news':
+            type = 3;
+            break;
+          default:
+            type = 1;
+        }
+        console.log(type,id,"type -id");
+        this.$axios.post('/comment/delComment',{
+          type:type,
+          id:id
+        }).then(res=>{
+          console.log(res);
+          console.log("删除成功");
+          // if(res===0){
+          //   this.getData(this.$route.params.articleID, this.$route.path.split('/')[1]);
+          //   this.comment = "";
+          // }
         })
       },
       obj2key(obj, keys) {
